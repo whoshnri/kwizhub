@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,10 +12,19 @@ import { toast } from "sonner";
 import { userLogin, adminLogin } from "@/app/actions/auth";
 import Navbar from "@/components/layout/navbar";
 
+
 export default function LoginPage() {
-    const router = useRouter();
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginContent />
+        </Suspense>
+    );
+}
+
+function LoginContent() {
     const searchParams = useSearchParams();
     const isAdmin = searchParams.get("admin") === "true";
+    const router = useRouter();
     const [loading, setLoading] = useState(false);
 
     async function handleUserLogin(e: React.FormEvent<HTMLFormElement>) {
