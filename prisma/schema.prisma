@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  username     String     @unique
+  passwordHash String
+  createdAt    DateTime   @default(now())
+  deletedAt    DateTime?
+  orders       Order[]
+sessions     AppSession[]
+  materials    Material[] @relation("Downloads")
+}
+
+model Admin {
+  id                  String         @id @default(uuid())
+  name                String
+  email               String         @unique
+  username            String         @unique
+  passwordHash        String
+  wallet              Float          @default(0)
+  createdAt           DateTime       @default(now())
+  materials           Material[]
+  coAuthoredMaterials Material[]     @relation("CoAuthor")
+  orders              Order[]
+  withdrawals         Withdrawal[]
+  transactions        Transaction[]
+  referralCodes       ReferralCode[]
+}
+
+model Material {
+  id               String         @id @default(uuid())
+  name             String
+  course           String
+  courseCode       String
+  price            Float
+  coAuthorId       String?
+  coAuthor         Admin?         @relation("CoAuthor", fields: [coAuthorId], references: [id])
+  equityPercentage Float?
+  coAuthorAccepted Boolean?
+  referralPercentage Float?       @default(0)
+  semester         Semester 
+  pdfPath          String
+  createdAt        DateTime       @default(now())
+  isPublished      Boolean        @default(true)
+  adminId          String
+  admin            Admin          @relation(fields: [adminId], references: [id])
+  orders           Order[]
+  transactions     Transaction[]
+  referralCodes    ReferralCode[]
+  downloadedBy     User[]         @relation("Downloads")
+}
+
+model Order {
+  id         String   @id @default(uuid())
+  amount     Float
+  status     String // COMPLETED | FAILED | REFUNDED
+  paymentRef String   @unique
+  createdAt  DateTime @default(now())
+  userId     String
+  adminId    String
+  materialId String
+  user       User     @relation(fields: [userId], references: [id])
+  admin      Admin    @relation(fields: [adminId], references: [id])
+  material   Material @relation(fields: [materialId], references: [id])
+  transactions Transaction[]
+}
+
+model Withdrawal {
+  id          String   @id @default(uuid())
+  amount      Float
+  status      String // PENDING | APPROVED | REJECTED | PAID
+  reference   String   @unique
+  createdAt   DateTime @default(now())
+  adminId     String
+  admin       Admin    @relation(fields: [adminId], references: [id])
+  bankName    String
+  accountName String
+  accountNo   String
+}
+
+
+enum Semester {
+  FIRST
+  SECOND
+}
+
+enum TransactionType {
+  SALE
+  WITHDRAWAL
+  REFERRAL_COMMISSION
+  EQUITY_PAYMENT
+}
+
+model ReferralCode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  earningsPercentage Float @default(10)
+
+  materialId String
+  material   Material @relation(fields: [materialId], references: [id])
+
+  referrerId String
+  referrer   Admin  @relation(fields: [referrerId], references: [id])
+
+  usageCount Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+model AppSession {
+  id               String   @id @default(uuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sessionTokenHash String   @unique
+  deviceId         String?
+  deviceName       String?
+  ip               String?
+  userAgent        String?
+
+  createdAt        DateTime @default(now())
+  lastActiveAt     DateTime?
+  expiresAt        DateTime
+  revoked          Boolean  @default(false)
+  revokedAt        DateTime?
+
+  @@index([userId])
+}
+
+
+model Transaction {
+  id          String          @id @default(uuid())
+  type        TransactionType
+  amount      Float
+  description String
+  createdAt   DateTime        @default(now())
+
+  adminId String
+  admin   Admin  @relation(fields: [adminId], references: [id])
+
+  materialId String?
+  material   Material? @relation(fields: [materialId], references: [id])
+
+  orderId String?
+  order   Order?  @relation(fields: [orderId], references: [id])
+}
