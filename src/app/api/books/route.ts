@@ -28,9 +28,15 @@ export async function GET(req: NextRequest) {
                     select: {
                         id: true,
                         name: true,
+                        price: true,
+                        admin : {
+                            select: {
+                                name: true,
+                            }
+                        },
                         course: true,
                         courseCode: true,
-                        pdfPath: true, // Needed for the reader
+                        pdfPath: true,  
                         semester: true,
                     },
                 },

@@ -16,6 +16,9 @@ export async function POST(req: NextRequest) {
 
         const user = await prisma.user.findUnique({
             where: { email },
+            include: {
+                _count: true,
+            },
         });
 
         if (!user) {
@@ -38,6 +41,9 @@ export async function POST(req: NextRequest) {
                 id: user.id,
                 email: user.email,
                 username: user.username,
+                material_count: user._count.materials,
+                createdAt : user.createdAt
+
             },
         });
     } catch (error) {
