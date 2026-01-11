@@ -1,10 +1,18 @@
+import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-import { mockDeep, mockReset } from 'jest-mock-extended'
-import { PrismaClient } from '@prisma/client'
+const globalForPrisma = global as unknown as {
+    prisma: PrismaClient
+}
 
-const prisma = mockDeep<PrismaClient>()
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+})
 
-export const mockPrisma = prisma
-export const resetPrisma = () => mockReset(prisma)
+const prisma = globalForPrisma.prisma || new PrismaClient({
+  adapter,
+})
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 export default prisma
