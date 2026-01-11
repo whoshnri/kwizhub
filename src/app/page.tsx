@@ -10,11 +10,11 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary to-blue-900 text-white py-24 overflow-hidden">
+      <section className="relative bg-background text-foreground py-24 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center gap-2 bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-full px-4 py-2 mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
@@ -24,19 +24,19 @@ export default function HomePage() {
 
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Your Gateway to
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
+              <span className="block text-primary">
                 Academic Excellence
               </span>
             </h1>
 
-            <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Access quality study materials, past questions, and academic resources
               from verified authors. Excel in your studies with KwizHub.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/marketplace">
-                <Button size="lg" variant="secondary" className="w-full sm:w-auto text-lg px-8">
+                <Button size="lg" className="w-full sm:w-auto text-lg px-8">
                   Browse Marketplace
                 </Button>
               </Link>
@@ -44,7 +44,7 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto text-lg px-8 bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                  className="w-full sm:w-auto text-lg px-8"
                 >
                   Start Selling
                 </Button>
@@ -174,43 +174,43 @@ export default function HomePage() {
       </section>
 
       {/* App CTA Section */}
-      <section className="py-20 bg-gray-900 text-white overflow-hidden">
+      <section className="py-20 bg-card text-card-foreground overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 text-center md:text-left space-y-6">
-              <span className="inline-block px-4 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm font-medium border border-blue-500/30">
+              <span className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20">
                 New Mobile App
               </span>
               <h2 className="text-3xl md:text-5xl font-bold leading-tight">
                 Study on the go with the <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <span className="text-primary">
                   KwizHub Mobile App
                 </span>
               </h2>
-              <p className="text-gray-300 text-lg max-w-xl">
+              <p className="text-muted-foreground text-lg max-w-xl">
                 Download your materials for offline access. Enjoy a distraction-free reading experience with built-in security features.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Link href="/app">
-                  <Button size="lg" className="h-14 px-8 text-lg bg-white text-gray-900 hover:bg-gray-100 w-full sm:w-auto">
+                  <Button size="lg" className="h-14 px-8 text-lg w-full sm:w-auto">
                     Learn More
                   </Button>
                 </Link>
               </div>
             </div>
             <div className="flex-1 relative">
-              <div className="relative z-10 mx-auto w-64 h-[500px] bg-gray-800 rounded-[2.5rem] border-8 border-gray-700 shadow-2xl overflow-hidden">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-700 rounded-b-xl z-20"></div>
-                <div className="w-full h-full bg-gray-900 flex flex-col items-center justify-center p-6 text-center space-y-4">
-                  <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center mb-4">
-                    <span className="text-3xl font-bold text-white">K</span>
+              <div className="relative z-10 mx-auto w-64 h-[500px] bg-background rounded-[2.5rem] border-8 border-border shadow-2xl overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-border rounded-b-xl z-20"></div>
+                <div className="w-full h-full bg-card flex flex-col items-center justify-center p-6 text-center space-y-4">
+                  <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
+                    <span className="text-3xl font-bold text-primary-foreground">K</span>
                   </div>
                   <h3 className="font-bold text-xl">KwizHub</h3>
-                  <button className="px-6 py-2 bg-blue-600 rounded-full text-sm font-medium">Download Now</button>
+                  <button className="px-6 py-2 bg-primary rounded-full text-sm font-medium">Download Now</button>
                 </div>
               </div>
               {/* Glow effect */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-500/20 blur-[100px] rounded-full -z-10"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/20 blur-[100px] rounded-full -z-10"></div>
             </div>
           </div>
         </div>
