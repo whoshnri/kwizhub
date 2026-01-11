@@ -55,6 +55,7 @@ model Material {
   referralPercentage Float?       @default(0)
   semester         Semester 
   pdfPath          String
+  bunnyCdnUrl      String?
   createdAt        DateTime       @default(now())
   isPublished      Boolean        @default(true)
   adminId          String
@@ -63,6 +64,10 @@ model Material {
   transactions     Transaction[]
   referralCodes    ReferralCode[]
   downloadedBy     User[]         @relation("Downloads")
+
+  @@index([adminId, isPublished])
+  @@index([courseCode])
+  @@index([semester])
 }
 
 model Order {
@@ -157,4 +162,8 @@ model Transaction {
 
   orderId String?
   order   Order?  @relation(fields: [orderId], references: [id])
+
+  @@index([adminId, createdAt])
+  @@index([materialId])
+  @@index([type, createdAt])
 }

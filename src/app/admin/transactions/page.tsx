@@ -12,14 +12,21 @@ export default async function AdminTransactionsPage({
     const params = await searchParams;
     const type = params.type as $Enums.TransactionType | undefined;
     const materialId = params.materialId;
+    const startDate = params.startDate;
+    const endDate = params.endDate;
 
-    const transactions = await getAdminTransactions({ type, materialId });
+    const transactions = await getAdminTransactions({ 
+        type, 
+        materialId,
+        startDate,
+        endDate,
+    });
     const materials = await getAdminMaterials(); // For filter dropdown
 
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold">Transactions</h1>
+                <h1 className="text-3xl font-bold font-heading">Transactions</h1>
                 <p className="text-muted-foreground mt-1">
                     View and filter your sales & earning history.
                 </p>
@@ -29,7 +36,7 @@ export default async function AdminTransactionsPage({
                 <TransactionsView
                     transactions={transactions}
                     materials={materials}
-                    currentFilters={{ type, materialId }}
+                    currentFilters={{ type, materialId, startDate, endDate }}
                 />
             </Suspense>
         </div>

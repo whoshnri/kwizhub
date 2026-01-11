@@ -26,7 +26,7 @@ export default async function AdminDashboardPage() {
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold">Dashboard</h1>
+                    <h1 className="text-3xl font-bold font-heading">Dashboard</h1>
                     <p className="text-muted-foreground mt-1">
                         Overview of your author account
                     </p>
@@ -48,7 +48,7 @@ export default async function AdminDashboardPage() {
             <Card className="bg-gradient-to-br from-primary to-blue-900 text-white">
                 <CardHeader>
                     <CardDescription className="text-blue-100">Wallet Balance</CardDescription>
-                    <CardTitle className="text-5xl">₦{stats.wallet.toLocaleString()}</CardTitle>
+                    <CardTitle className="text-5xl font-heading">₦{stats.wallet.toLocaleString()}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center justify-between">
@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Earnings</CardDescription>
-                        <CardTitle className="text-3xl">₦{stats.totalEarnings.toLocaleString()}</CardTitle>
+                        <CardTitle className="text-3xl font-heading">₦{stats.totalEarnings.toLocaleString()}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">All time</p>
@@ -77,7 +77,7 @@ export default async function AdminDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Materials</CardDescription>
-                        <CardTitle className="text-3xl">{stats.totalMaterials}</CardTitle>
+                        <CardTitle className="text-3xl font-heading">{stats.totalMaterials}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">Uploaded</p>
@@ -87,7 +87,7 @@ export default async function AdminDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Sales</CardDescription>
-                        <CardTitle className="text-3xl">{stats.totalOrders}</CardTitle>
+                        <CardTitle className="text-3xl font-heading">{stats.totalOrders}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">Completed orders</p>
@@ -97,7 +97,7 @@ export default async function AdminDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Pending Withdrawals</CardDescription>
-                        <CardTitle className="text-3xl">₦{stats.pendingWithdrawals.toLocaleString()}</CardTitle>
+                        <CardTitle className="text-3xl font-heading">₦{stats.pendingWithdrawals.toLocaleString()}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">Processing</p>

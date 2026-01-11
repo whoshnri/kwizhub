@@ -51,9 +51,10 @@ export default function NewMaterialPage() {
 
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 justify-center flex">
             <div>
-                <h1 className="text-3xl font-bold">Upload Material</h1>
+            <div>
+                <h1 className="text-3xl font-bold font-heading">Upload Material</h1>
                 <p className="text-muted-foreground mt-1">
                     Add a new study material to sell
                 </p>
@@ -218,6 +219,7 @@ export default function NewMaterialPage() {
                     </form>
                 </CardContent>
             </Card>
+            </div>
         </div>
     );
 }

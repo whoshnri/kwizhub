@@ -76,7 +76,7 @@ function LoginContent() {
             <div className="flex items-center justify-center py-12 px-4">
                 <Card className="w-full max-w-md">
                     <CardHeader className="text-center">
-                        <CardTitle className="text-2xl">Welcome Back</CardTitle>
+                        <CardTitle className="text-2xl font-heading">Welcome Back</CardTitle>
                         <CardDescription>
                             Sign in to your account to continue
                         </CardDescription>

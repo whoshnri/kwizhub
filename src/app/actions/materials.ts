@@ -15,6 +15,7 @@ import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import type { ActionResult } from "./auth";
 import { $Enums } from "@/generated/prisma/client";
+import { uploadToBunnyCDN, deleteFromBunnyCDN } from "@/lib/bunny-cdn";
 
 // Rate limiting for uploads
 const uploadAttempts = new Map<string, { count: number; lastAttempt: number }>();
@@ -108,11 +109,18 @@ export async function uploadMaterial(
 
         // Generate unique filename
         const filename = `${uuidv4()}.pdf`;
-        const uploadDir = path.join(process.cwd(), "public", "uploads");
-        const filePath = path.join(uploadDir, filename);
-
-        // Ensure uploads directory exists
-        await writeFile(filePath, buffer);
+        
+        // Upload to Bunny CDN
+        let bunnyCdnUrl: string | null = null;
+        try {
+            bunnyCdnUrl = await uploadToBunnyCDN(buffer, filename, "materials/");
+        } catch (error) {
+            console.error("Bunny CDN upload error:", error);
+            // Fallback to local storage if Bunny CDN fails
+            const uploadDir = path.join(process.cwd(), "public", "uploads");
+            const filePath = path.join(uploadDir, filename);
+            await writeFile(filePath, buffer);
+        }
 
         // Verify co-author if exists
         if (validated.coauthor) {
@@ -132,7 +140,8 @@ export async function uploadMaterial(
                 coAuthorId: validated.coauthor, // Map coauthor ID
                 equityPercentage: validated.equityPercentage,
                 referralPercentage: validated.referralPercentage || 0,
-                pdfPath: `/uploads/${filename}`,
+                pdfPath: bunnyCdnUrl ? `/materials/${filename}` : `/uploads/${filename}`,
+                bunnyCdnUrl: bunnyCdnUrl,
                 adminId: session.id,
                 coAuthorAccepted: validated.coauthor ? null : undefined, // Explicit null if coauthor
             },
@@ -220,12 +229,21 @@ export async function deleteMaterial(id: string): Promise<ActionResult> {
             return { success: false, message: "Not authorized" };
         }
 
-        // Delete file from filesystem
+        // Delete file from Bunny CDN or filesystem
         try {
-            const filePath = path.join(process.cwd(), "public", material.pdfPath);
-            await unlink(filePath);
-        } catch {
-            console.log("File already deleted or not found");
+            if (material.bunnyCdnUrl) {
+                // Extract path from CDN URL (e.g., "materials/filename.pdf")
+                const urlPath = material.bunnyCdnUrl.split(".b-cdn.net/")[1];
+                if (urlPath) {
+                    await deleteFromBunnyCDN(urlPath);
+                }
+            } else {
+                // Fallback to local file deletion
+                const filePath = path.join(process.cwd(), "public", material.pdfPath);
+                await unlink(filePath);
+            }
+        } catch (error) {
+            console.log("File deletion error:", error);
         }
 
         await prisma.material.delete({

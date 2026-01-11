@@ -14,7 +14,7 @@ export default async function UserDashboardPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold">Welcome back, {session?.username}!</h1>
+                <h1 className="text-3xl font-bold font-heading">Welcome back, {session?.username}!</h1>
                 <p className="text-muted-foreground mt-1">
                     Here&apos;s an overview of your account
                 </p>
@@ -25,7 +25,7 @@ export default async function UserDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Materials</CardDescription>
-                        <CardTitle className="text-4xl">{materials.length}</CardTitle>
+                        <CardTitle className="text-4xl font-heading">{materials.length}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">Purchased materials</p>
@@ -35,7 +35,7 @@ export default async function UserDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Transactions</CardDescription>
-                        <CardTitle className="text-4xl">{orders.length}</CardTitle>
+                        <CardTitle className="text-4xl font-heading">{orders.length}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">Completed purchases</p>
@@ -45,7 +45,7 @@ export default async function UserDashboardPage() {
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Spent</CardDescription>
-                        <CardTitle className="text-4xl">₦{totalSpent.toLocaleString()}</CardTitle>
+                        <CardTitle className="text-4xl font-heading">₦{totalSpent.toLocaleString()}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-sm text-muted-foreground">All time</p>

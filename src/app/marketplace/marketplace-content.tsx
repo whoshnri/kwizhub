@@ -172,7 +172,7 @@ export function MarketplaceContent({
                             <Card key={material.id} className="flex flex-col hover:shadow-lg transition-shadow">
                                 <CardHeader>
                                     <div className="flex items-start justify-between gap-2">
-                                        <CardTitle className="text-lg line-clamp-2">{material.name}</CardTitle>
+                                        <CardTitle className="text-lg font-heading line-clamp-2">{material.name}</CardTitle>
                                         <Badge variant="secondary" className="shrink-0">
                                             {material.course}
                                         </Badge>
@@ -194,7 +194,7 @@ export function MarketplaceContent({
                                 </CardContent>
 
                                 <CardFooter className="flex items-center justify-between pt-0">
-                                    <span className="text-2xl font-bold text-primary">
+                                    <span className="text-2xl font-bold font-heading text-primary">
                                         ₦{material.price.toLocaleString()}
                                     </span>
 

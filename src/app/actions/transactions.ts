@@ -7,6 +7,8 @@ import { $Enums } from "@/generated/prisma/client";
 export async function getAdminTransactions(filters?: {
     materialId?: string | "all";
     type?: $Enums.TransactionType | "all";
+    startDate?: string;
+    endDate?: string;
 }) {
     const session = await getAdminSession();
     if (!session) return [];
@@ -23,13 +25,29 @@ export async function getAdminTransactions(filters?: {
         whereClause.type = filters.type;
     }
 
+    // Date range filtering
+    if (filters?.startDate || filters?.endDate) {
+        whereClause.createdAt = {};
+        if (filters.startDate) {
+            whereClause.createdAt.gte = new Date(filters.startDate);
+        }
+        if (filters.endDate) {
+            // Add one day to include the entire end date
+            const endDate = new Date(filters.endDate);
+            endDate.setDate(endDate.getDate() + 1);
+            whereClause.createdAt.lte = endDate;
+        }
+    }
+
     return prisma.transaction.findMany({
         where: whereClause,
         include: {
             material: {
                 select: {
+                    id: true,
                     name: true,
                     course: true,
+                    courseCode: true,
                 },
             },
             order: {
