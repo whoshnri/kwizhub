@@ -10,12 +10,16 @@ import {
     EditMaterialInput,
 } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
-import { writeFile, unlink } from "fs/promises";
+import { unlink } from "fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import type { ActionResult } from "./auth";
 import { $Enums } from "@/generated/prisma/client";
 import { uploadToBunnyCDN, deleteFromBunnyCDN } from "@/lib/bunny-cdn";
+
+const logUpload = (traceId: string, message: string, info: Record<string, unknown> = {}) => {
+    console.info(`[material-upload ${traceId}] ${message}`, info);
+};
 
 // Rate limiting for uploads
 const uploadAttempts = new Map<string, { count: number; lastAttempt: number }>();
@@ -59,29 +63,36 @@ async function scanFile(buffer: Buffer): Promise<boolean> {
 export async function uploadMaterial(
     formData: FormData
 ): Promise<ActionResult<{ id: string }>> {
+    const traceId = uuidv4();
     try {
+        logUpload(traceId, "🚀 Starting upload", { startedAt: Date.now() });
         const session = await getAdminSession();
         if (!session) {
+            logUpload(traceId, "🔒 Auth check failed");
             return { success: false, message: "Not authenticated" };
         }
 
         if (!checkUploadRateLimit(session.id)) {
+            logUpload(traceId, "⏳ Upload rate limit hit", { adminId: session.id });
             return { success: false, message: "Upload limit reached. Please try again later." };
         }
 
         const file = formData.get("file") as File | null;
+        logUpload(traceId, "📥 Form received", { hasFile: Boolean(file) });
         if (!file) {
             return { success: false, message: "No file provided" };
         }
 
         // Validate PDF
         if (file.type !== "application/pdf") {
+            logUpload(traceId, "🛑 File type not allowed", { type: file.type });
             return { success: false, message: "Only PDF files are allowed" };
         }
 
         // Check size (10MB limit)
         const MAX_SIZE = 10 * 1024 * 1024;
         if (file.size > MAX_SIZE) {
+            logUpload(traceId, "🛑 File too large", { size: file.size });
             return { success: false, message: "File size must be less than 10MB" };
         }
 
@@ -96,40 +107,53 @@ export async function uploadMaterial(
             referralPercentage: formData.get("referralPercentage") ? parseFloat(formData.get("referralPercentage") as string) : undefined,
         };
 
+        logUpload(traceId, "🧾 Parsed form data", data);
         const validated = uploadMaterialSchema.parse(data);
+        logUpload(traceId, "✅ Schema validation passed");
 
         // Read file and scan
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
+        logUpload(traceId, "📦 File buffered", { size: buffer.length });
 
         const isSafe = await scanFile(buffer);
+        logUpload(traceId, "🧪 Security scan complete", { isSafe });
         if (!isSafe) {
             return { success: false, message: "File failed security scan" };
         }
 
         // Generate unique filename
         const filename = `${uuidv4()}.pdf`;
+        logUpload(traceId, "🧾 Generated filename", { filename });
         
-        // Upload to Bunny CDN
+        // Upload to Bunny CDN (required)
         let bunnyCdnUrl: string | null = null;
         try {
+            logUpload(traceId, "🚚 Uploading to Bunny CDN...");
             bunnyCdnUrl = await uploadToBunnyCDN(buffer, filename, "materials/");
+            logUpload(traceId, "✅ Bunny upload succeeded", { bunnyCdnUrl });
         } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            logUpload(traceId, "❌ Bunny upload failed", { error: errorMessage });
             console.error("Bunny CDN upload error:", error);
-            // Fallback to local storage if Bunny CDN fails
-            const uploadDir = path.join(process.cwd(), "public", "uploads");
-            const filePath = path.join(uploadDir, filename);
-            await writeFile(filePath, buffer);
+            return { success: false, message: "Upload failed while sending to storage. Please retry." };
+        }
+
+        if (!bunnyCdnUrl) {
+            logUpload(traceId, "❌ Bunny upload missing URL");
+            return { success: false, message: "Upload failed while finalizing storage URL." };
         }
 
         // Verify co-author if exists
         if (validated.coauthor) {
+            logUpload(traceId, "🧑‍🤝‍🧑 Checking co-author", { coauthor: validated.coauthor });
             const coauthorExists = await prisma.admin.findUnique({ where: { id: validated.coauthor } });
             if (!coauthorExists) {
+                logUpload(traceId, "🚫 Co-author not found", { coauthor: validated.coauthor });
                 return { success: false, message: "Selected co-author does not exist." };
             }
         }
-
+        logUpload(traceId, "🗄️ Saving material record");
         const material = await prisma.material.create({
             data: {
                 name: validated.name,
@@ -140,15 +164,19 @@ export async function uploadMaterial(
                 coAuthorId: validated.coauthor, // Map coauthor ID
                 equityPercentage: validated.equityPercentage,
                 referralPercentage: validated.referralPercentage || 0,
-                pdfPath: bunnyCdnUrl ? `/materials/${filename}` : `/uploads/${filename}`,
+                pdfPath: `/materials/${filename}`,
                 bunnyCdnUrl: bunnyCdnUrl,
                 adminId: session.id,
                 coAuthorAccepted: validated.coauthor ? null : undefined, // Explicit null if coauthor
             },
         });
 
+        logUpload(traceId, "🎉 Material saved", { materialId: material.id });
+
         revalidatePath("/admin/materials");
         revalidatePath("/marketplace");
+
+        logUpload(traceId, "🔄 Cache revalidated");
 
         return {
             success: true,
@@ -156,8 +184,9 @@ export async function uploadMaterial(
             data: { id: material.id },
         };
     } catch (error) {
+        logUpload(traceId, "🔥 Unexpected error", { message: error instanceof Error ? error.message : String(error) });
         console.error("Upload material error:", error);
-        return { success: false, message: "Something went wrong" };
+        return { success: false, message: "Upload failed. Please try again." };
     }
 }
 

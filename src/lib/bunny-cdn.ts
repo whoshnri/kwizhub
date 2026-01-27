@@ -3,6 +3,10 @@
  * Handles file uploads to Bunny CDN storage
  */
 
+const logBunny = (operation: string, message: string, info: Record<string, unknown> = {}) => {
+    console.info(`[bunny-cdn ${operation}] ${message}`, info);
+};
+
 interface BunnyUploadResponse {
   HttpCode: number;
   Message: string;
@@ -46,33 +50,46 @@ export async function uploadToBunnyCDN(
   filename: string,
   path: string = "materials/"
 ): Promise<string> {
-  const storageZoneName = process.env.BUNNY_STORAGE_ZONE_NAME;
-  const storageApiKey = process.env.BUNNY_STORAGE_API_KEY;
-  const cdnHostname = process.env.BUNNY_CDN_HOSTNAME || process.env.BUNNY_STORAGE_ZONE_NAME;
+  const operationId = Date.now() + Math.random().toString(36).slice(2);
+  logBunny(operationId, "🚀 Upload initiated", { filename, path });
 
-  if (!storageZoneName || !storageApiKey) {
+  const storageZoneName = process.env.BUNNY_STORAGE_ZONE;
+  const storageApiKey = process.env.BUNNY_STORAGE_ACCESS_KEY;
+  const pullZoneUrl = process.env.BUNNY_PULL_ZONE_URL;
+
+  if (!storageZoneName || !storageApiKey || !pullZoneUrl) {
+    logBunny(operationId, "🔒 Missing credentials");
     throw new BunnyCDNError(
-      "Bunny CDN credentials not configured. Please set BUNNY_STORAGE_ZONE_NAME and BUNNY_STORAGE_API_KEY environment variables."
+      "Unable to access storage. Please contact support if this persists."
     );
   }
 
   // Ensure path ends with /
   const normalizedPath = path.endsWith("/") ? path : `${path}/`;
   const fullPath = `${normalizedPath}${filename}`;
+  logBunny(operationId, "📝 Path normalized", { fullPath });
 
   // Convert to ArrayBuffer for fetch
   let body: ArrayBuffer;
-  if (file instanceof Blob) {
-    body = await file.arrayBuffer();
-  } else {
-    // Convert Buffer to ArrayBuffer by copying
-    const uint8Array = new Uint8Array(file);
-    body = uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteOffset + uint8Array.byteLength);
+  try {
+    if (file instanceof Blob) {
+      body = await file.arrayBuffer();
+    } else {
+      // Convert Buffer to ArrayBuffer by copying
+      const uint8Array = new Uint8Array(file);
+      body = uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteOffset + uint8Array.byteLength);
+    }
+    logBunny(operationId, "✅ File buffer prepared", { size: body.byteLength });
+  } catch (err) {
+    logBunny(operationId, "🛑 Failed to prepare buffer", { error: err instanceof Error ? err.message : String(err) });
+    throw new BunnyCDNError("Unable to prepare file for upload. Please try again.");
   }
 
   const uploadUrl = `https://storage.bunnycdn.com/${storageZoneName}/${fullPath}`;
+  logBunny(operationId, "🌐 Upload URL ready", { url: uploadUrl });
 
   try {
+    logBunny(operationId, "📤 Sending to storage...");
     const response = await fetch(uploadUrl, {
       method: "PUT",
       headers: {
@@ -82,25 +99,36 @@ export async function uploadToBunnyCDN(
       body: body,
     });
 
+    logBunny(operationId, "📨 Response received", { status: response.status });
+
     if (!response.ok) {
       const errorText = await response.text();
-      throw new BunnyCDNError(
-        `Bunny CDN upload failed: ${errorText}`,
-        response.status
-      );
+      logBunny(operationId, "❌ Upload rejected", { status: response.status, message: errorText });
+      
+      let friendlyMessage = "Upload failed.";
+      if (response.status === 401) friendlyMessage = "Storage authentication failed. Please contact support.";
+      else if (response.status === 403) friendlyMessage = "Access denied to storage. Please contact support.";
+      else if (response.status === 413) friendlyMessage = "File too large for storage.";
+      else if (response.status >= 500) friendlyMessage = "Storage service temporarily unavailable. Please retry.";
+      
+      throw new BunnyCDNError(friendlyMessage, response.status);
     }
 
     // Construct CDN URL
-    // Format: https://{cdnHostname}.b-cdn.net/{path}
-    const cdnUrl = `https://${cdnHostname}.b-cdn.net/${fullPath}`;
+    // Format: https://chorus.b-cdn.net/{path}
+    const cdnUrl = `${pullZoneUrl}/${fullPath}`;
+    logBunny(operationId, "✨ Upload complete", { cdnUrl });
 
     return cdnUrl;
   } catch (error) {
     if (error instanceof BunnyCDNError) {
+      logBunny(operationId, "🔥 Upload error", { message: error.message, status: error.statusCode });
       throw error;
     }
+    const errMsg = error instanceof Error ? error.message : "Unknown error";
+    logBunny(operationId, "🔥 Unexpected error", { message: errMsg });
     throw new BunnyCDNError(
-      `Failed to upload to Bunny CDN: ${error instanceof Error ? error.message : "Unknown error"}`
+      "Upload service encountered an issue. Please retry."
     );
   }
 }
@@ -110,12 +138,12 @@ export async function uploadToBunnyCDN(
  * @param filePath - Full path to the file in storage (e.g., "materials/file.pdf")
  */
 export async function deleteFromBunnyCDN(filePath: string): Promise<void> {
-  const storageZoneName = process.env.BUNNY_STORAGE_ZONE_NAME;
-  const storageApiKey = process.env.BUNNY_STORAGE_API_KEY;
+  const storageZoneName = process.env.BUNNY_STORAGE_ZONE;
+  const storageApiKey = process.env.BUNNY_STORAGE_ACCESS_KEY;
 
   if (!storageZoneName || !storageApiKey) {
     throw new BunnyCDNError(
-      "Bunny CDN credentials not configured. Please set BUNNY_STORAGE_ZONE_NAME and BUNNY_STORAGE_API_KEY environment variables."
+      "Unable to access storage. Please contact support if this persists."
     );
   }
 
@@ -154,12 +182,12 @@ export async function deleteFromBunnyCDN(filePath: string): Promise<void> {
  * @param filePath - Full path to the file in storage
  */
 export async function getBunnyFileInfo(filePath: string): Promise<BunnyFileInfo | null> {
-  const storageZoneName = process.env.BUNNY_STORAGE_ZONE_NAME;
-  const storageApiKey = process.env.BUNNY_STORAGE_API_KEY;
+  const storageZoneName = process.env.BUNNY_STORAGE_ZONE;
+  const storageApiKey = process.env.BUNNY_STORAGE_ACCESS_KEY;
 
   if (!storageZoneName || !storageApiKey) {
     throw new BunnyCDNError(
-      "Bunny CDN credentials not configured. Please set BUNNY_STORAGE_ZONE_NAME and BUNNY_STORAGE_API_KEY environment variables."
+      "Unable to access storage. Please contact support if this persists."
     );
   }
 
