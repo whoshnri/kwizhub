@@ -1046,6 +1046,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   username: 'username',
+  name: 'name',
   passwordHash: 'passwordHash',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt'
@@ -1078,6 +1079,9 @@ export const MaterialScalarFieldEnum = {
   coAuthorAccepted: 'coAuthorAccepted',
   referralPercentage: 'referralPercentage',
   semester: 'semester',
+  department: 'department',
+  level: 'level',
+  category: 'category',
   pdfPath: 'pdfPath',
   bunnyCdnUrl: 'bunnyCdnUrl',
   createdAt: 'createdAt',

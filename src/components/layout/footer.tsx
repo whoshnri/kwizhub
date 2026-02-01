@@ -1,177 +1,116 @@
 import Link from "next/link";
-import { BookOpen, ShoppingBag, Shield, Mail, Github, Twitter } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Github, Twitter, Linkedin } from "lucide-react";
+import { IBM_Plex_Sans } from "next/font/google";
+
+const ibm_plex_sans = IBM_Plex_Sans({
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"],
+});
 
 export default function Footer() {
     return (
-        <footer className="border-t border-border/40 bg-muted/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+        <footer className="bg-black border-t border-white/5">
+            <div className="max-w-7xl mx-auto px-6 py-24 pb-12">
+                <div className="flex flex-col lg:flex-row justify-between gap-16 lg:gap-8">
                     {/* Brand Section */}
-                    <div className="md:col-span-4 space-y-4">
+                    <div className="space-y-8 max-w-md">
                         <Link href="/" className="flex items-center gap-2.5 group">
-                            <div className="w-9 h-9 bg-gradient-to-br from-primary to-primary/80 rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-                                <span className="text-white font-bold text-lg">K</span>
+                            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-transform duration-500 group-hover:rotate-12">
+                                <span className="text-black font-bold text-base">K</span>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-xl font-bold font-heading text-foreground leading-none">KwizHub</span>
-                                <span className="text-[10px] text-muted-foreground leading-none">Academic Excellence</span>
-                            </div>
+                            <span className={`text-xl font-bold tracking-tight text-white ${ibm_plex_sans.className}`}>KwizHub</span>
                         </Link>
-                        <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-                            Your trusted marketplace for quality academic materials, past questions, and study resources. 
-                            Empowering students to excel in their academic journey.
+                        <p className="text-zinc-400 text-base leading-relaxed">
+                            Your trusted marketplace for premium academic materials.
+                            Empowering students to excel in their educational journey with verified resources.
                         </p>
-                        <div className="flex items-center gap-3 pt-2">
-                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg">
-                                <Twitter className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg">
-                                <Github className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg">
-                                <Mail className="h-4 w-4" />
-                            </Button>
+                        <div className="flex items-center gap-5 pt-2">
+                            <Link href="#" className="text-zinc-500 hover:text-white transition-colors">
+                                <Twitter className="h-5 w-5" />
+                            </Link>
+                            <Link href="#" className="text-zinc-500 hover:text-white transition-colors">
+                                <Github className="h-5 w-5" />
+                            </Link>
+                            <Link href="#" className="text-zinc-500 hover:text-white transition-colors">
+                                <Linkedin className="h-5 w-5" />
+                            </Link>
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    <div className="md:col-span-2">
-                        <h3 className="font-semibold font-heading mb-4 text-foreground">Platform</h3>
-                        <ul className="space-y-3">
-                            <li>
-                                <Link
-                                    href="/marketplace"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 group"
-                                >
-                                    <ShoppingBag className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span>Marketplace</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/app"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2 group"
-                                >
-                                    <BookOpen className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    <span>Mobile App</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/login"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Login
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/signup"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Sign Up
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Resources */}
-                    <div className="md:col-span-2">
-                        <h3 className="font-semibold font-heading mb-4 text-foreground">Resources</h3>
-                        <ul className="space-y-3">
-                            <li>
-                                <Link
-                                    href="/terms"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Terms of Service
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href="/privacy"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Privacy Policy
-                                </Link>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Help Center
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Contact Us
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* For Authors */}
-                    <div className="md:col-span-2">
-                        <h3 className="font-semibold font-heading mb-4 text-foreground">For Authors</h3>
-                        <ul className="space-y-3">
-                            <li>
-                                <Link
-                                    href="/signup"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Become an Author
-                                </Link>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Author Guidelines
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    href="#"
-                                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                    Pricing
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Security Badge */}
-                    <div className="md:col-span-2">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Shield className="h-5 w-5 text-primary" />
-                            <h3 className="font-semibold font-heading text-foreground">Secure Platform</h3>
+                    {/* Links Grid */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 flex-1">
+                        {/* Platform */}
+                        <div className="space-y-6">
+                            <h3 className={`text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 ${ibm_plex_sans.className}`}>Platform</h3>
+                            <ul className="space-y-4">
+                                {[
+                                    { name: 'Marketplace', href: '/marketplace' },
+                                    { name: 'Sign In', href: '/login' },
+                                    { name: 'Sign Up', href: '/signup' }
+                                ].map((item) => (
+                                    <li key={item.name}>
+                                        <Link href={item.href} className="text-sm text-zinc-400 hover:text-white transition-colors">
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                            Your data and transactions are protected with industry-standard security measures.
-                        </p>
+
+                        {/* Resources */}
+                        <div className="space-y-6">
+                            <h3 className={`text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 ${ibm_plex_sans.className}`}>Resources</h3>
+                            <ul className="space-y-4">
+                                {[
+                                    { name: 'Terms of Service', href: '/legal?tab=terms' },
+                                    { name: 'Privacy Policy', href: '/legal?tab=privacy' },
+                                    { name: 'Contact Support', href: '/contact' }
+                                ].map((item) => (
+                                    <li key={item.name}>
+                                        <Link href={item.href} className="text-sm text-zinc-400 hover:text-white transition-colors">
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Newsletter / Stay Updated */}
+                        <div className="space-y-6 col-span-2 lg:col-span-2">
+                            <h3 className={`text-xs font-bold uppercase tracking-[0.2em] text-zinc-500 ${ibm_plex_sans.className}`}>Stay Updated</h3>
+                            <div className="space-y-4">
+                                <p className="text-zinc-400 text-sm leading-relaxed max-w-sm">
+                                    Join our mailing list to receive the latest academic materials and platform updates.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                    <input
+                                        type="email"
+                                        placeholder="Email Address"
+                                        className="h-10 px-4 rounded-xl bg-white/5 border border-white/10 text-xs focus:outline-hidden focus:ring-1 focus:ring-white/20 transition-all w-full sm:max-w-[240px]"
+                                    />
+                                    <button className="h-10 px-6 rounded-xl bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all flex items-center justify-center gap-2">
+                                        Join Now
+                                    </button>
+                                </div>
+                                <p className="text-[10px] text-zinc-600 font-medium">
+                                    By joining, you agree to our <Link href="/legal?tab=privacy" className="underline hover:text-zinc-400 decoration-zinc-700">Privacy Policy</Link>.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-border/40 mt-12 pt-8">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                        <p className="text-sm text-muted-foreground text-center md:text-left">
-                            &copy; {new Date().getFullYear()} KwizHub. All rights reserved.
-                        </p>
-                        <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                            <Link href="/terms" className="hover:text-foreground transition-colors">
-                                Terms
-                            </Link>
-                            <Link href="/privacy" className="hover:text-foreground transition-colors">
-                                Privacy
-                            </Link>
-                        </div>
+                <div className="border-t border-white/5 mt-24 pt-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <p className="text-xs text-zinc-500">
+                        &copy; {new Date().getFullYear()} KwizHub. Built for Academic Excellence.
+                    </p>
+                    <div className="flex items-center gap-6">
+                        <Link href="#" className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-zinc-300 transition-colors">
+                            English
+                        </Link>
+                        <div className="w-1 h-1 rounded-full bg-zinc-800" />
+
                     </div>
                 </div>
             </div>

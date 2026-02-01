@@ -49,6 +49,9 @@ export type MaterialMinAggregateOutputType = {
   coAuthorAccepted: boolean | null
   referralPercentage: number | null
   semester: $Enums.Semester | null
+  department: string | null
+  level: string | null
+  category: string | null
   pdfPath: string | null
   bunnyCdnUrl: string | null
   createdAt: Date | null
@@ -67,6 +70,9 @@ export type MaterialMaxAggregateOutputType = {
   coAuthorAccepted: boolean | null
   referralPercentage: number | null
   semester: $Enums.Semester | null
+  department: string | null
+  level: string | null
+  category: string | null
   pdfPath: string | null
   bunnyCdnUrl: string | null
   createdAt: Date | null
@@ -85,6 +91,9 @@ export type MaterialCountAggregateOutputType = {
   coAuthorAccepted: number
   referralPercentage: number
   semester: number
+  department: number
+  level: number
+  category: number
   pdfPath: number
   bunnyCdnUrl: number
   createdAt: number
@@ -117,6 +126,9 @@ export type MaterialMinAggregateInputType = {
   coAuthorAccepted?: true
   referralPercentage?: true
   semester?: true
+  department?: true
+  level?: true
+  category?: true
   pdfPath?: true
   bunnyCdnUrl?: true
   createdAt?: true
@@ -135,6 +147,9 @@ export type MaterialMaxAggregateInputType = {
   coAuthorAccepted?: true
   referralPercentage?: true
   semester?: true
+  department?: true
+  level?: true
+  category?: true
   pdfPath?: true
   bunnyCdnUrl?: true
   createdAt?: true
@@ -153,6 +168,9 @@ export type MaterialCountAggregateInputType = {
   coAuthorAccepted?: true
   referralPercentage?: true
   semester?: true
+  department?: true
+  level?: true
+  category?: true
   pdfPath?: true
   bunnyCdnUrl?: true
   createdAt?: true
@@ -258,6 +276,9 @@ export type MaterialGroupByOutputType = {
   coAuthorAccepted: boolean | null
   referralPercentage: number | null
   semester: $Enums.Semester
+  department: string | null
+  level: string | null
+  category: string | null
   pdfPath: string
   bunnyCdnUrl: string | null
   createdAt: Date
@@ -299,6 +320,9 @@ export type MaterialWhereInput = {
   coAuthorAccepted?: Prisma.BoolNullableFilter<"Material"> | boolean | null
   referralPercentage?: Prisma.FloatNullableFilter<"Material"> | number | null
   semester?: Prisma.EnumSemesterFilter<"Material"> | $Enums.Semester
+  department?: Prisma.StringNullableFilter<"Material"> | string | null
+  level?: Prisma.StringNullableFilter<"Material"> | string | null
+  category?: Prisma.StringNullableFilter<"Material"> | string | null
   pdfPath?: Prisma.StringFilter<"Material"> | string
   bunnyCdnUrl?: Prisma.StringNullableFilter<"Material"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Material"> | Date | string
@@ -323,6 +347,9 @@ export type MaterialOrderByWithRelationInput = {
   coAuthorAccepted?: Prisma.SortOrderInput | Prisma.SortOrder
   referralPercentage?: Prisma.SortOrderInput | Prisma.SortOrder
   semester?: Prisma.SortOrder
+  department?: Prisma.SortOrderInput | Prisma.SortOrder
+  level?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
   pdfPath?: Prisma.SortOrder
   bunnyCdnUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -350,6 +377,9 @@ export type MaterialWhereUniqueInput = Prisma.AtLeast<{
   coAuthorAccepted?: Prisma.BoolNullableFilter<"Material"> | boolean | null
   referralPercentage?: Prisma.FloatNullableFilter<"Material"> | number | null
   semester?: Prisma.EnumSemesterFilter<"Material"> | $Enums.Semester
+  department?: Prisma.StringNullableFilter<"Material"> | string | null
+  level?: Prisma.StringNullableFilter<"Material"> | string | null
+  category?: Prisma.StringNullableFilter<"Material"> | string | null
   pdfPath?: Prisma.StringFilter<"Material"> | string
   bunnyCdnUrl?: Prisma.StringNullableFilter<"Material"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Material"> | Date | string
@@ -374,6 +404,9 @@ export type MaterialOrderByWithAggregationInput = {
   coAuthorAccepted?: Prisma.SortOrderInput | Prisma.SortOrder
   referralPercentage?: Prisma.SortOrderInput | Prisma.SortOrder
   semester?: Prisma.SortOrder
+  department?: Prisma.SortOrderInput | Prisma.SortOrder
+  level?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrderInput | Prisma.SortOrder
   pdfPath?: Prisma.SortOrder
   bunnyCdnUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -400,6 +433,9 @@ export type MaterialScalarWhereWithAggregatesInput = {
   coAuthorAccepted?: Prisma.BoolNullableWithAggregatesFilter<"Material"> | boolean | null
   referralPercentage?: Prisma.FloatNullableWithAggregatesFilter<"Material"> | number | null
   semester?: Prisma.EnumSemesterWithAggregatesFilter<"Material"> | $Enums.Semester
+  department?: Prisma.StringNullableWithAggregatesFilter<"Material"> | string | null
+  level?: Prisma.StringNullableWithAggregatesFilter<"Material"> | string | null
+  category?: Prisma.StringNullableWithAggregatesFilter<"Material"> | string | null
   pdfPath?: Prisma.StringWithAggregatesFilter<"Material"> | string
   bunnyCdnUrl?: Prisma.StringNullableWithAggregatesFilter<"Material"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Material"> | Date | string
@@ -417,6 +453,9 @@ export type MaterialCreateInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -440,6 +479,9 @@ export type MaterialUncheckedCreateInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -461,6 +503,9 @@ export type MaterialUpdateInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -484,6 +529,9 @@ export type MaterialUncheckedUpdateInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -506,6 +554,9 @@ export type MaterialCreateManyInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -523,6 +574,9 @@ export type MaterialUpdateManyMutationInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -540,6 +594,9 @@ export type MaterialUncheckedUpdateManyInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -568,6 +625,9 @@ export type MaterialCountOrderByAggregateInput = {
   coAuthorAccepted?: Prisma.SortOrder
   referralPercentage?: Prisma.SortOrder
   semester?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  level?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   pdfPath?: Prisma.SortOrder
   bunnyCdnUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -592,6 +652,9 @@ export type MaterialMaxOrderByAggregateInput = {
   coAuthorAccepted?: Prisma.SortOrder
   referralPercentage?: Prisma.SortOrder
   semester?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  level?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   pdfPath?: Prisma.SortOrder
   bunnyCdnUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -610,6 +673,9 @@ export type MaterialMinOrderByAggregateInput = {
   coAuthorAccepted?: Prisma.SortOrder
   referralPercentage?: Prisma.SortOrder
   semester?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  level?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   pdfPath?: Prisma.SortOrder
   bunnyCdnUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -771,10 +837,6 @@ export type EnumSemesterFieldUpdateOperationsInput = {
   set?: $Enums.Semester
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
@@ -833,6 +895,9 @@ export type MaterialCreateWithoutDownloadedByInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -855,6 +920,9 @@ export type MaterialUncheckedCreateWithoutDownloadedByInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -900,6 +968,9 @@ export type MaterialScalarWhereInput = {
   coAuthorAccepted?: Prisma.BoolNullableFilter<"Material"> | boolean | null
   referralPercentage?: Prisma.FloatNullableFilter<"Material"> | number | null
   semester?: Prisma.EnumSemesterFilter<"Material"> | $Enums.Semester
+  department?: Prisma.StringNullableFilter<"Material"> | string | null
+  level?: Prisma.StringNullableFilter<"Material"> | string | null
+  category?: Prisma.StringNullableFilter<"Material"> | string | null
   pdfPath?: Prisma.StringFilter<"Material"> | string
   bunnyCdnUrl?: Prisma.StringNullableFilter<"Material"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Material"> | Date | string
@@ -917,6 +988,9 @@ export type MaterialCreateWithoutAdminInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -939,6 +1013,9 @@ export type MaterialUncheckedCreateWithoutAdminInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -969,6 +1046,9 @@ export type MaterialCreateWithoutCoAuthorInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -990,6 +1070,9 @@ export type MaterialUncheckedCreateWithoutCoAuthorInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1053,6 +1136,9 @@ export type MaterialCreateWithoutOrdersInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1075,6 +1161,9 @@ export type MaterialUncheckedCreateWithoutOrdersInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1111,6 +1200,9 @@ export type MaterialUpdateWithoutOrdersInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1133,6 +1225,9 @@ export type MaterialUncheckedUpdateWithoutOrdersInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1153,6 +1248,9 @@ export type MaterialCreateWithoutReferralCodesInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1175,6 +1273,9 @@ export type MaterialUncheckedCreateWithoutReferralCodesInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1211,6 +1312,9 @@ export type MaterialUpdateWithoutReferralCodesInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1233,6 +1337,9 @@ export type MaterialUncheckedUpdateWithoutReferralCodesInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1253,6 +1360,9 @@ export type MaterialCreateWithoutTransactionsInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1275,6 +1385,9 @@ export type MaterialUncheckedCreateWithoutTransactionsInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1311,6 +1424,9 @@ export type MaterialUpdateWithoutTransactionsInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1333,6 +1449,9 @@ export type MaterialUncheckedUpdateWithoutTransactionsInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1353,6 +1472,9 @@ export type MaterialUpdateWithoutDownloadedByInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1375,6 +1497,9 @@ export type MaterialUncheckedUpdateWithoutDownloadedByInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1396,6 +1521,9 @@ export type MaterialUncheckedUpdateManyWithoutDownloadedByInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1414,6 +1542,9 @@ export type MaterialCreateManyAdminInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1430,6 +1561,9 @@ export type MaterialCreateManyCoAuthorInput = {
   coAuthorAccepted?: boolean | null
   referralPercentage?: number | null
   semester: $Enums.Semester
+  department?: string | null
+  level?: string | null
+  category?: string | null
   pdfPath: string
   bunnyCdnUrl?: string | null
   createdAt?: Date | string
@@ -1447,6 +1581,9 @@ export type MaterialUpdateWithoutAdminInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1469,6 +1606,9 @@ export type MaterialUncheckedUpdateWithoutAdminInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1490,6 +1630,9 @@ export type MaterialUncheckedUpdateManyWithoutAdminInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1506,6 +1649,9 @@ export type MaterialUpdateWithoutCoAuthorInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1527,6 +1673,9 @@ export type MaterialUncheckedUpdateWithoutCoAuthorInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1548,6 +1697,9 @@ export type MaterialUncheckedUpdateManyWithoutCoAuthorInput = {
   coAuthorAccepted?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   referralPercentage?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   semester?: Prisma.EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pdfPath?: Prisma.StringFieldUpdateOperationsInput | string
   bunnyCdnUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1624,6 +1776,9 @@ export type MaterialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   coAuthorAccepted?: boolean
   referralPercentage?: boolean
   semester?: boolean
+  department?: boolean
+  level?: boolean
+  category?: boolean
   pdfPath?: boolean
   bunnyCdnUrl?: boolean
   createdAt?: boolean
@@ -1649,6 +1804,9 @@ export type MaterialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   coAuthorAccepted?: boolean
   referralPercentage?: boolean
   semester?: boolean
+  department?: boolean
+  level?: boolean
+  category?: boolean
   pdfPath?: boolean
   bunnyCdnUrl?: boolean
   createdAt?: boolean
@@ -1669,6 +1827,9 @@ export type MaterialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   coAuthorAccepted?: boolean
   referralPercentage?: boolean
   semester?: boolean
+  department?: boolean
+  level?: boolean
+  category?: boolean
   pdfPath?: boolean
   bunnyCdnUrl?: boolean
   createdAt?: boolean
@@ -1689,6 +1850,9 @@ export type MaterialSelectScalar = {
   coAuthorAccepted?: boolean
   referralPercentage?: boolean
   semester?: boolean
+  department?: boolean
+  level?: boolean
+  category?: boolean
   pdfPath?: boolean
   bunnyCdnUrl?: boolean
   createdAt?: boolean
@@ -1696,7 +1860,7 @@ export type MaterialSelectScalar = {
   adminId?: boolean
 }
 
-export type MaterialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "course" | "courseCode" | "price" | "coAuthorId" | "equityPercentage" | "coAuthorAccepted" | "referralPercentage" | "semester" | "pdfPath" | "bunnyCdnUrl" | "createdAt" | "isPublished" | "adminId", ExtArgs["result"]["material"]>
+export type MaterialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "course" | "courseCode" | "price" | "coAuthorId" | "equityPercentage" | "coAuthorAccepted" | "referralPercentage" | "semester" | "department" | "level" | "category" | "pdfPath" | "bunnyCdnUrl" | "createdAt" | "isPublished" | "adminId", ExtArgs["result"]["material"]>
 export type MaterialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   coAuthor?: boolean | Prisma.Material$coAuthorArgs<ExtArgs>
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
@@ -1736,6 +1900,9 @@ export type $MaterialPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     coAuthorAccepted: boolean | null
     referralPercentage: number | null
     semester: $Enums.Semester
+    department: string | null
+    level: string | null
+    category: string | null
     pdfPath: string
     bunnyCdnUrl: string | null
     createdAt: Date
@@ -2180,6 +2347,9 @@ export interface MaterialFieldRefs {
   readonly coAuthorAccepted: Prisma.FieldRef<"Material", 'Boolean'>
   readonly referralPercentage: Prisma.FieldRef<"Material", 'Float'>
   readonly semester: Prisma.FieldRef<"Material", 'Semester'>
+  readonly department: Prisma.FieldRef<"Material", 'String'>
+  readonly level: Prisma.FieldRef<"Material", 'String'>
+  readonly category: Prisma.FieldRef<"Material", 'String'>
   readonly pdfPath: Prisma.FieldRef<"Material", 'String'>
   readonly bunnyCdnUrl: Prisma.FieldRef<"Material", 'String'>
   readonly createdAt: Prisma.FieldRef<"Material", 'DateTime'>

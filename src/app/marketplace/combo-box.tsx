@@ -18,22 +18,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { getTutors } from "../actions/peripheral"
 
+interface ComboboxProps {
+  items: { value: string; label: string }[]
+  value: string
+  setValue: (value: string) => void
+  placeholder?: string
+  searchPlaceholder?: string
+  emptyMessage?: string
+  className?: string
+}
 
-
-export function ComboboxDemo({value, setValue}: {value: string, setValue: (value: string) => void}) {
+export function Combobox({
+  items,
+  value,
+  setValue,
+  placeholder = "Select item...",
+  searchPlaceholder = "Search...",
+  emptyMessage = "No item found.",
+  className
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  
-const [valuePairs, setValuePairs] = React.useState<{value: string, label: string}[]>([])
-
-    React.useEffect(() => {
-        const fetchTutors = async() => {
-            const tutors = await getTutors()
-            setValuePairs(tutors.data as {value: string, label: string}[] ?? [])
-        }
-        fetchTutors()
-    },[])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,34 +47,36 @@ const [valuePairs, setValuePairs] = React.useState<{value: string, label: string
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between h-14 rounded-2xl bg-background/50 border-border/40", className)}
         >
-          {value
-            ? valuePairs.find((pair) => pair.value === value)?.label
-            : "Select tutor..."}
-          <ChevronsUpDown className="opacity-50" />
+          <span className="truncate">
+            {value
+              ? items.find((item) => item.value === value)?.label
+              : placeholder}
+          </span>
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0 w-full">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search Tutor..." className="h-9" />
+          <CommandInput placeholder={searchPlaceholder} className="h-9" />
           <CommandList>
-            <CommandEmpty>No tutor found.</CommandEmpty>
+            <CommandEmpty>{emptyMessage}</CommandEmpty>
             <CommandGroup>
-              {valuePairs.map((pair) => (
+              {items.map((item) => (
                 <CommandItem
-                  key={pair.value}
-                  value={pair.value}
+                  key={item.value}
+                  value={item.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >
-                  {pair.label}
+                  {item.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === pair.value ? "opacity-100" : "opacity-0"
+                      "ml-auto h-4 w-4",
+                      value === item.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>

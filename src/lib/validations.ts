@@ -40,6 +40,9 @@ export const uploadMaterialSchema = z.object({
     course: z.string().min(2, "Course code is required"),
     courseCode: z.string().min(2, "Course code is required"),
     semester: z.enum(["FIRST", "SECOND"]),
+    department: z.string().min(1, "Department is required"),
+    level: z.string().min(1, "Level is required"),
+    category: z.string().min(1, "Category is required"),
     price: z.number().min(0, "Price must be positive"),
     coauthor: z.string().optional(), // Now expects an ID
     equityPercentage: z.number().min(0).max(100).optional(),
@@ -52,6 +55,9 @@ export const editMaterialSchema = z.object({
     course: z.string().min(2, "Course code is required").optional(),
     courseCode: z.string().min(2, "Course code is required").optional(),
     semester: z.enum(["FIRST", "SECOND"]).optional(),
+    department: z.string().optional(),
+    level: z.string().optional(),
+    category: z.string().optional(),
     price: z.number().min(0, "Price must be positive").optional(),
     coauthor: z.string().optional().nullable(),
     isPublished: z.boolean().optional(),
@@ -83,6 +89,16 @@ export const deleteAccountSchema = z.object({
     password: z.string().min(1, "Password is required"),
 });
 
+export const updateUserSchema = z.object({
+    username: z
+        .string()
+        .min(3, "Username must be at least 3 characters")
+        .max(20, "Username must be at most 20 characters")
+        .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores")
+        .optional(),
+    name: z.string().min(2, "Name must be at least 2 characters").optional(),
+});
+
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 export type CreateAdminInput = z.infer<typeof createAdminSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
@@ -92,3 +108,4 @@ export type CreateOrderInput = z.infer<typeof createOrderSchema>;
 export type RequestWithdrawalInput = z.infer<typeof requestWithdrawalSchema>;
 export type ApproveWithdrawalInput = z.infer<typeof approveWithdrawalSchema>;
 export type DeleteAccountInput = z.infer<typeof deleteAccountSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;

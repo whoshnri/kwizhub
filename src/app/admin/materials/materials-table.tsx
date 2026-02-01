@@ -29,7 +29,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { DEPARTMENT_LABELS, LEVEL_LABELS } from "@/lib/constants";
+import { DEPARTMENT_LABELS, LEVEL_LABELS, MATERIAL_CATEGORY_LABELS, MaterialCategory } from "@/lib/constants";
 import { deleteMaterial, toggleMaterialPublish } from "@/app/actions/materials";
 import { $Enums } from "@/generated/prisma/client";
 
@@ -37,8 +37,10 @@ type Material = {
     id: string;
     name: string;
     course: string;
-    courseCode: string;
     semester: $Enums.Semester;
+    department: string | null;
+    level: string | null;
+    category: string | null;
     price: number;
     coAuthorId: string | null;
     isPublished: boolean;
@@ -103,6 +105,7 @@ export function MaterialsTable({ materials }: { materials: Material[] }) {
                                 <TableHead>Course</TableHead>
                                 <TableHead>Semester</TableHead>
                                 <TableHead>Code</TableHead>
+                                <TableHead>Category</TableHead>
                                 <TableHead className="text-center">Sales</TableHead>
                                 <TableHead className="text-right">Price</TableHead>
                                 <TableHead>Status</TableHead>
@@ -123,6 +126,11 @@ export function MaterialsTable({ materials }: { materials: Material[] }) {
                                     </TableCell>
                                     <TableCell>
                                         {material.courseCode}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline">
+                                            {material.category ? MATERIAL_CATEGORY_LABELS[material.category as MaterialCategory] : "N/A"}
+                                        </Badge>
                                     </TableCell>
                                     <TableCell className="text-center">{material._count.orders}</TableCell>
                                     <TableCell className="text-right font-semibold">

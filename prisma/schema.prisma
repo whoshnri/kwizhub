@@ -18,6 +18,7 @@ model User {
   id           String     @id @default(uuid())
   email        String     @unique
   username     String     @unique
+  name         String?
   passwordHash String
   createdAt    DateTime   @default(now())
   deletedAt    DateTime?
@@ -54,6 +55,9 @@ model Material {
   coAuthorAccepted Boolean?
   referralPercentage Float?       @default(0)
   semester         Semester 
+  department       String?
+  level            String?
+  category         String?
   pdfPath          String
   bunnyCdnUrl      String?
   createdAt        DateTime       @default(now())
@@ -68,6 +72,9 @@ model Material {
   @@index([adminId, isPublished])
   @@index([courseCode])
   @@index([semester])
+  @@index([department])
+  @@index([level])
+  @@index([category])
 }
 
 model Order {

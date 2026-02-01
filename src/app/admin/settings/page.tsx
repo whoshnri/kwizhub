@@ -16,26 +16,25 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { deleteUserAccount, updateUserCredentials } from "@/app/actions/auth";
+import { deleteAdminAccount, updateAdminCredentials } from "@/app/actions/auth";
 import { getSession } from "@/lib/session";
 
-export default function UserSettingsPage() {
+export default function AdminSettingsPage() {
     const router = useRouter();
-    const [password, setPassword] = useState("");
-    const [deleting, setDeleting] = useState(false);
-    const [dialogOpen, setDialogOpen] = useState(false);
-
     const [name, setName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [updating, setUpdating] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [password, setPassword] = useState("");
+    const [deleting, setDeleting] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     useEffect(() => {
         async function load() {
             setLoading(true);
             const session = await getSession();
-            if (session && session.type === "user") {
+            if (session && session.type === "admin") {
                 setName(session.name || "");
                 setUsername(session.username || "");
                 setEmail(session.email || "");
@@ -49,7 +48,7 @@ export default function UserSettingsPage() {
         e.preventDefault();
         setUpdating(true);
 
-        const result = await updateUserCredentials({
+        const result = await updateAdminCredentials({
             name: name || undefined,
             username: username
         });
@@ -72,7 +71,7 @@ export default function UserSettingsPage() {
 
         setDeleting(true);
 
-        const result = await deleteUserAccount({ password });
+        const result = await deleteAdminAccount({ password });
 
         if (result.success) {
             toast.success(result.message);
@@ -97,15 +96,15 @@ export default function UserSettingsPage() {
             <div>
                 <h1 className="text-3xl font-bold">Settings</h1>
                 <p className="text-muted-foreground mt-1">
-                    Manage your account settings
+                    Manage your administrator profile
                 </p>
             </div>
 
-            <Card>
+            <Card className="">
                 <CardHeader>
                     <CardTitle>Profile Credentials</CardTitle>
                     <CardDescription>
-                        Update your personal information
+                        Update your public information as an Author
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -118,6 +117,7 @@ export default function UserSettingsPage() {
                                     placeholder="Enter your name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
+                                    required
                                 />
                             </div>
                             <div className="space-y-2">
@@ -127,6 +127,7 @@ export default function UserSettingsPage() {
                                     placeholder="johndoe"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
+                                    required
                                 />
                             </div>
                         </div>
@@ -146,7 +147,7 @@ export default function UserSettingsPage() {
                                 Email cannot be changed for security purposes.
                             </p>
                         </div>
-                        <div className="flex justify-end pt-2">
+                        <div className="flex justify-start pt-2">
                             <Button type="submit" disabled={updating}>
                                 {updating ? "Saving..." : "Save Changes"}
                             </Button>
@@ -155,31 +156,32 @@ export default function UserSettingsPage() {
                 </CardContent>
             </Card>
 
-            <Card>
+            <Card className="">
                 <CardHeader>
-                    <CardTitle className="text-destructive">Danger Zone</CardTitle>
+                    <CardTitle className="text-destructive font-heading">Danger Zone</CardTitle>
                     <CardDescription>
                         Irreversible and destructive actions
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="flex items-center justify-between p-4 border border-destructive/20 rounded-lg bg-destructive/5">
-                        <div>
-                            <h3 className="font-semibold">Delete Account</h3>
-                            <p className="text-sm text-muted-foreground">
-                                Permanently delete your account and all associated data
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-destructive/20 rounded-xl bg-destructive/5 gap-4">
+                        <div className="space-y-1">
+                            <h3 className="font-bold text-destructive">Delete Author Account</h3>
+                            <p className="text-sm text-muted-foreground max-w-md">
+                                Permanently delete your profile and remove all your materials from the platform. This action is irreversible.
                             </p>
                         </div>
                         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button variant="destructive">Delete Account</Button>
+                                <Button variant="destructive" className="w-full sm:w-auto font-bold uppercase tracking-wider text-xs">
+                                    Delete Account
+                                </Button>
                             </DialogTrigger>
-                            <DialogContent>
+                            <DialogContent className="sm:max-w-[425px]">
                                 <DialogHeader>
-                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                    <DialogDescription>
-                                        This action cannot be undone. Your account will be permanently
-                                        deleted and you will lose access to all purchased materials.
+                                    <DialogTitle className="text-xl font-bold">Are you absolutely sure?</DialogTitle>
+                                    <DialogDescription className="pt-2">
+                                        This will permanently delete your author account and remove all your published materials. You will lose access to your wallet and transaction history.
                                     </DialogDescription>
                                 </DialogHeader>
 
@@ -194,17 +196,19 @@ export default function UserSettingsPage() {
                                             placeholder="••••••••"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
+                                            className="rounded-xl"
                                         />
                                     </div>
                                 </div>
 
-                                <DialogFooter>
+                                <DialogFooter className="gap-2 sm:gap-2">
                                     <Button
                                         variant="outline"
                                         onClick={() => {
                                             setDialogOpen(false);
                                             setPassword("");
                                         }}
+                                        className="rounded-xl"
                                     >
                                         Cancel
                                     </Button>
@@ -212,8 +216,9 @@ export default function UserSettingsPage() {
                                         variant="destructive"
                                         onClick={handleDeleteAccount}
                                         disabled={deleting || !password}
+                                        className="rounded-xl font-bold"
                                     >
-                                        {deleting ? "Deleting..." : "Delete Account"}
+                                        {deleting ? "Deleting..." : "Confirm Deletion"}
                                     </Button>
                                 </DialogFooter>
                             </DialogContent>

@@ -11,6 +11,7 @@ import {
     Users,
     Upload,
     LogOut,
+    Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -55,14 +56,15 @@ const navItems = [
         href: "/admin/referrals",
         icon: Users,
     },
+    {
+        title: "Settings",
+        href: "/admin/settings",
+        icon: Settings,
+    },
 ];
 
 export function AdminSidebar({ name, email, initials }: AdminSidebarProps) {
     const pathname = usePathname();
-
-    function handleLogout(){
-        logout()
-    }
 
     return (
         <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
@@ -145,7 +147,13 @@ export function AdminSidebar({ name, email, initials }: AdminSidebarProps) {
                         </div>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <form  onSubmit={handleLogout} className="w-full">
+                            <Link href="/admin/settings" className="flex w-full items-center gap-2">
+                                <Settings className="h-4 w-4" />
+                                Settings
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <form action={logout} className="w-full">
                                 <button
                                     type="submit"
                                     className="flex w-full items-center gap-2 text-left"

@@ -105,6 +105,28 @@ export const LEVEL_LABELS: Record<Level, string> = {
     PHD: "PhD",
 };
 
+export const MATERIAL_CATEGORIES = [
+    "PAST_QUESTIONS",
+    "LECTURE_NOTES",
+    "TEXTBOOK",
+    "SUMMARY",
+    "PRACTICE_QUIZ",
+    "ASSIGNMENT_HELP",
+    "OTHER",
+] as const;
+
+export type MaterialCategory = (typeof MATERIAL_CATEGORIES)[number];
+
+export const MATERIAL_CATEGORY_LABELS: Record<MaterialCategory, string> = {
+    PAST_QUESTIONS: "Past Questions",
+    LECTURE_NOTES: "Lecture Notes",
+    TEXTBOOK: "Textbook",
+    SUMMARY: "Summary",
+    PRACTICE_QUIZ: "Practice Quiz",
+    ASSIGNMENT_HELP: "Assignment Help",
+    OTHER: "Other",
+};
+
 export const ORDER_STATUS = {
     COMPLETED: "COMPLETED",
     FAILED: "FAILED",

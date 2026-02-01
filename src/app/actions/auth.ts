@@ -1,19 +1,22 @@
 "use server";
 
 import bcrypt from "bcrypt";
-import  prisma from "@/lib/db";
+import prisma from "@/lib/db";
 import { createSession, destroySession, getUserSession, getAdminSession } from "@/lib/session";
 import {
     createUserSchema,
     createAdminSchema,
     loginSchema,
     deleteAccountSchema,
+    updateUserSchema,
     CreateUserInput,
     CreateAdminInput,
     LoginInput,
     DeleteAccountInput,
+    UpdateUserInput,
 } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export type ActionResult<T = void> = {
     success: boolean;
@@ -238,10 +241,138 @@ export async function deleteUserAccount(input: DeleteAccountInput): Promise<Acti
     }
 }
 
-export async function logout(): Promise<ActionResult> {
+export async function deleteAdminAccount(input: DeleteAccountInput): Promise<ActionResult> {
+    try {
+        const validated = deleteAccountSchema.parse(input);
+        const session = await getAdminSession();
+
+        if (!session) {
+            return { success: false, message: "Not authenticated" };
+        }
+
+        const admin = await prisma.admin.findUnique({
+            where: { id: session.id },
+        });
+
+        if (!admin) {
+            return { success: false, message: "Admin not found" };
+        }
+
+        const validPassword = await bcrypt.compare(validated.password, admin.passwordHash);
+        if (!validPassword) {
+            return { success: false, message: "Invalid password" };
+        }
+
+        // Admins are permanently deleted in this implementation (or you could add deletedAt to Admin model)
+        await prisma.admin.delete({
+            where: { id: session.id },
+        });
+
+        await destroySession();
+        revalidatePath("/");
+
+        return { success: true, message: "Admin account deleted successfully" };
+    } catch (error) {
+        console.error("Delete admin account error:", error);
+        return { success: false, message: "Something went wrong" };
+    }
+}
+
+export async function updateUserCredentials(input: UpdateUserInput): Promise<ActionResult> {
+    try {
+        const validated = updateUserSchema.parse(input);
+        const session = await getUserSession();
+
+        if (!session) {
+            return { success: false, message: "Not authenticated" };
+        }
+
+        // If username is being updated, check if it's already taken
+        if (validated.username && validated.username !== session.username) {
+            const existingUser = await prisma.user.findFirst({
+                where: { username: { equals: validated.username, mode: "insensitive" } },
+            });
+
+            if (existingUser) {
+                return { success: false, message: "Username already exists" };
+            }
+        }
+
+        const user = await prisma.user.update({
+            where: { id: session.id },
+            data: {
+                username: validated.username,
+                name: validated.name,
+            },
+        });
+
+        // Update session
+        await createSession(
+            { id: user.id, email: user.email, username: user.username, name: user.name ?? undefined },
+            "user"
+        );
+
+        revalidatePath("/user/settings");
+        return { success: true, message: "Profile updated successfully" };
+    } catch (error) {
+        if (error instanceof Error && error.name === "ZodError") {
+            return { success: false, message: "Invalid input data" };
+        }
+        console.error("Update user error:", error);
+        return { success: false, message: "Something went wrong" };
+    }
+}
+
+export async function updateAdminCredentials(input: UpdateUserInput): Promise<ActionResult> {
+    try {
+        const validated = updateUserSchema.parse(input);
+        const session = await getAdminSession();
+
+        if (!session) {
+            return { success: false, message: "Not authenticated as admin" };
+        }
+
+        // If username is being updated, check if it's already taken
+        if (validated.username && validated.username !== session.username) {
+            const existingAdmin = await prisma.admin.findFirst({
+                where: { username: { equals: validated.username, mode: "insensitive" } },
+            });
+
+            if (existingAdmin) {
+                return { success: false, message: "Username already exists" };
+            }
+        }
+
+        const admin = await prisma.admin.update({
+            where: { id: session.id },
+            data: {
+                username: validated.username,
+                name: validated.name || "",
+            },
+        });
+
+        // Update session
+        await createSession(
+            { id: admin.id, email: admin.email, username: admin.username, name: admin.name },
+            "admin"
+        );
+
+        revalidatePath("/admin/settings");
+
+        return { success: true, message: "Admin profile updated successfully" };
+    } catch (error) {
+        if (error instanceof Error && error.name === "ZodError") {
+            return { success: false, message: "Invalid input data" };
+        }
+        console.error("Update admin error:", error);
+        return { success: false, message: "Something went wrong" };
+    }
+}
+
+export async function logout(): Promise<void> {
     await destroySession();
     revalidatePath("/");
-    return { success: true, message: "Logged out successfully" };
+    redirect("/");
 }
 
 export { getUserSession, getAdminSession };

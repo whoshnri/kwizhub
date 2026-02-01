@@ -102,6 +102,9 @@ export async function uploadMaterial(
             price: parseFloat(formData.get("price") as string),
             courseCode: formData.get("courseCode") as string,
             semester: formData.get("semester") as $Enums.Semester,
+            department: formData.get("department") as string,
+            level: formData.get("level") as string,
+            category: formData.get("category") as string,
             coauthor: (formData.get("coauthor") as string) || undefined,
             equityPercentage: formData.get("equityPercentage") ? parseFloat(formData.get("equityPercentage") as string) : undefined,
             referralPercentage: formData.get("referralPercentage") ? parseFloat(formData.get("referralPercentage") as string) : undefined,
@@ -125,7 +128,7 @@ export async function uploadMaterial(
         // Generate unique filename
         const filename = `${uuidv4()}.pdf`;
         logUpload(traceId, "🧾 Generated filename", { filename });
-        
+
         // Upload to Bunny CDN (required)
         let bunnyCdnUrl: string | null = null;
         try {
@@ -160,6 +163,9 @@ export async function uploadMaterial(
                 course: validated.course,
                 courseCode: validated.courseCode,
                 semester: validated.semester,
+                department: validated.department,
+                level: validated.level,
+                category: validated.category,
                 price: validated.price,
                 coAuthorId: validated.coauthor, // Map coauthor ID
                 equityPercentage: validated.equityPercentage,
@@ -332,36 +338,65 @@ export async function getMaterials(filters?: {
     search?: string;
     department?: string;
     level?: string;
+    category?: string;
     author?: string;
+    semester?: $Enums.Semester;
+    courseCode?: string;
+    isFree?: boolean;
 }) {
-    const where: Record<string, unknown> = { isPublished: true };
+    const andConditions: any[] = [{ isPublished: true }];
 
     if (filters?.search) {
-        where.OR = [
-            { name: { contains: filters.search } },
-            { course: { contains: filters.search } },
-        ];
+        andConditions.push({
+            OR: [
+                { name: { contains: filters.search, mode: "insensitive" } },
+                { course: { contains: filters.search, mode: "insensitive" } },
+                { courseCode: { contains: filters.search, mode: "insensitive" } },
+            ]
+        });
     }
 
     if (filters?.department) {
-        where.department = filters.department;
+        andConditions.push({ department: filters.department });
     }
 
     if (filters?.level) {
-        where.level = filters.level;
+        andConditions.push({ level: filters.level });
+    }
+
+    if (filters?.category) {
+        andConditions.push({ category: filters.category });
+    }
+
+    if (filters?.isFree !== undefined) {
+        if (filters.isFree) {
+            andConditions.push({ price: 0 });
+        } else {
+            andConditions.push({ price: { gt: 0 } });
+        }
+    }
+
+    if (filters?.semester) {
+        andConditions.push({ semester: filters.semester });
+    }
+
+    if (filters?.courseCode) {
+        andConditions.push({ courseCode: { contains: filters.courseCode, mode: "insensitive" } });
     }
 
     if (filters?.author) {
-        where.admin = {
+        andConditions.push({
             OR: [
-                { name: { contains: filters.author } },
-                { username: { contains: filters.author } },
-            ],
-        };
+                { admin: { name: { contains: filters.author, mode: "insensitive" } } },
+                { admin: { username: { contains: filters.author, mode: "insensitive" } } },
+                { coAuthor: { name: { contains: filters.author, mode: "insensitive" } } },
+                { coAuthor: { username: { contains: filters.author, mode: "insensitive" } } },
+            ]
+        });
     }
 
     return prisma.material.findMany({
-        where,
+        where: { AND: andConditions },
         include: {
             admin: {
                 select: { name: true, username: true },
