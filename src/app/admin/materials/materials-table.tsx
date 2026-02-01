@@ -40,6 +40,7 @@ type Material = {
     semester: $Enums.Semester;
     department: string | null;
     level: string | null;
+    courseCode: string | null;
     category: string | null;
     price: number;
     coAuthorId: string | null;
