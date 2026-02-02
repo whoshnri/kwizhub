@@ -50,7 +50,7 @@ model Material {
   courseCode       String
   price            Float
   coAuthorId       String?
-  coAuthor         Admin?         @relation("CoAuthor", fields: [coAuthorId], references: [id])
+  coAuthor         Admin?         @relation("CoAuthor", fields: [coAuthorId], references: [id], onDelete: NoAction)
   equityPercentage Float?
   coAuthorAccepted Boolean?
   referralPercentage Float?       @default(0)
@@ -63,7 +63,7 @@ model Material {
   createdAt        DateTime       @default(now())
   isPublished      Boolean        @default(true)
   adminId          String
-  admin            Admin          @relation(fields: [adminId], references: [id])
+  admin            Admin          @relation(fields: [adminId], references: [id], onDelete: Cascade)
   orders           Order[]
   transactions     Transaction[]
   referralCodes    ReferralCode[]
@@ -86,9 +86,9 @@ model Order {
   userId     String
   adminId    String
   materialId String
-  user       User     @relation(fields: [userId], references: [id])
-  admin      Admin    @relation(fields: [adminId], references: [id])
-  material   Material @relation(fields: [materialId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: NoAction)
+  admin      Admin    @relation(fields: [adminId], references: [id], onDelete: NoAction)
+  material   Material @relation(fields: [materialId], references: [id], onDelete: NoAction)
   transactions Transaction[]
 }
 
@@ -99,7 +99,7 @@ model Withdrawal {
   reference   String   @unique
   createdAt   DateTime @default(now())
   adminId     String
-  admin       Admin    @relation(fields: [adminId], references: [id])
+  admin       Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
   bankName    String
   accountName String
   accountNo   String
@@ -124,10 +124,10 @@ model ReferralCode {
   earningsPercentage Float @default(10)
 
   materialId String
-  material   Material @relation(fields: [materialId], references: [id])
+  material   Material @relation(fields: [materialId], references: [id], onDelete: Cascade)
 
   referrerId String
-  referrer   Admin  @relation(fields: [referrerId], references: [id])
+  referrer   Admin  @relation(fields: [referrerId], references: [id], onDelete: Cascade)
 
   usageCount Int      @default(0)
   createdAt  DateTime @default(now())
@@ -164,11 +164,11 @@ model Transaction {
   adminId String
   admin   Admin  @relation(fields: [adminId], references: [id])
 
-  materialId String?
-  material   Material? @relation(fields: [materialId], references: [id])
+  materialId String? 
+  material   Material? @relation(fields: [materialId], references: [id], onDelete: NoAction)
 
   orderId String?
-  order   Order?  @relation(fields: [orderId], references: [id])
+  order   Order?  @relation(fields: [orderId], references: [id], onDelete: NoAction)
 
   @@index([adminId, createdAt])
   @@index([materialId])

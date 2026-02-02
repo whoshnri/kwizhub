@@ -8,10 +8,15 @@ export default async function AdminLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getAdminSession();
+    let session;
+    try {
+        session = await getAdminSession();
+    } catch (error) {
+        // detailed error logging can be added here if needed
+    }
 
     if (!session) {
-        redirect("/login?admin=true");
+        redirect("/");
     }
 
     const initials = session.name
@@ -22,7 +27,7 @@ export default async function AdminLayout({
         .slice(0, 2);
 
     return (
-        <div className="flex h-screen overflow-hidden bg-background">
+        <div className="flex h-[111.11vh]  overflow-hidden bg-background">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
             <aside className="hidden lg:block">
                 <AdminSidebar
@@ -44,7 +49,7 @@ export default async function AdminLayout({
                 </div>
 
                 <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-8">
-                    <div className="mx-auto max-w-7xl">
+                    <div className="mx-auto w-full max-w-none">
                         {children}
                     </div>
                 </main>

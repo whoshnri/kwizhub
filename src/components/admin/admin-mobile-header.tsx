@@ -96,7 +96,7 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                         <nav className="flex-1 space-y-1 px-3 py-4">
                             {navItems.map((item) => {
                                 const Icon = item.icon;
-                                const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                                const isActive = pathname === item.href || pathname.endsWith(item.href + "/");
                                 return (
                                     <Link
                                         key={item.href}

@@ -21,7 +21,7 @@ export default async function UserDashboardPage() {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 md:grid-cols-3 gap-6">
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Materials</CardDescription>

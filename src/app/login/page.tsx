@@ -94,7 +94,7 @@ function LoginContent() {
     }
 
     return (
-        <div className="flex min-h-screen bg-background overflow-hidden font-sans">
+        <div className="flex min-h-[111.11vh] bg-background overflow-hidden font-sans">
             {/* Left Side - Banner Image (Hidden on mobile) */}
             <div className="hidden lg:flex lg:w-1/2 relative bg-muted overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-br from-black/60 via-black/30 to-transparent z-10" />

@@ -10,7 +10,7 @@ const ibm_plex_sans = IBM_Plex_Sans({
 export default function Footer() {
     return (
         <footer className="bg-black border-t border-white/5">
-            <div className="max-w-7xl mx-auto px-6 py-24 pb-12">
+            <div className="max-w-7xl mx-auto px-10 py-24 pb-12">
                 <div className="flex flex-col lg:flex-row justify-between gap-16 lg:gap-8">
                     {/* Brand Section */}
                     <div className="space-y-8 max-w-md">
@@ -89,7 +89,7 @@ export default function Footer() {
                                         className="h-10 px-4 rounded-xl bg-white/5 border border-white/10 text-xs focus:outline-hidden focus:ring-1 focus:ring-white/20 transition-all w-full sm:max-w-[240px]"
                                     />
                                     <button className="h-10 px-6 rounded-xl bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-all flex items-center justify-center gap-2">
-                                        Join Now
+                                        Join
                                     </button>
                                 </div>
                                 <p className="text-[10px] text-zinc-600 font-medium">

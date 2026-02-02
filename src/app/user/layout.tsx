@@ -8,10 +8,15 @@ export default async function UserLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getUserSession();
+    let session;
+    try {
+        session = await getUserSession();
+    } catch (error) {
+        // detailed error logging can be added here if needed
+    }
 
     if (!session) {
-        redirect("/login");
+        redirect("/");
     }
 
     const initials = session.username
@@ -19,9 +24,9 @@ export default async function UserLayout({
         .toUpperCase();
 
     return (
-        <div className="flex h-screen overflow-hidden bg-background">
+        <div className="flex h-[111.11vh] w-[111.12vw] overflow-hidden bg-background">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
-            <aside className="hidden lg:block">
+            <aside className="hidden lg:block ">
                 <UserSidebar
                     username={session.username}
                     email={session.email}
@@ -30,7 +35,7 @@ export default async function UserLayout({
             </aside>
 
             {/* Main Content */}
-            <div className="flex flex-1 flex-col overflow-hidden">
+            <div className="flex flex-1 h-full flex-col overflow-hidden">
                 {/* Mobile Header */}
                 <div className="lg:hidden">
                     <UserMobileHeader
@@ -41,7 +46,7 @@ export default async function UserLayout({
                 </div>
 
                 <main className="flex-1 overflow-y-auto bg-background p-4 lg:p-8">
-                    <div className="mx-auto max-w-7xl">
+                    <div className="mx-auto w-full max-w-none">
                         {children}
                     </div>
                 </main>

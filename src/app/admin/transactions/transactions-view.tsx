@@ -178,8 +178,9 @@ export function TransactionsView({
                             <Select
                                 value={currentFilters.type || "all"}
                                 onValueChange={(val) => handleFilterChange("type", val)}
+                                
                             >
-                                <SelectTrigger>
+                                <SelectTrigger className="w-full p-5">
                                     <SelectValue placeholder="All Types" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -199,7 +200,7 @@ export function TransactionsView({
                                 value={currentFilters.materialId || "all"}
                                 onValueChange={(val) => handleFilterChange("materialId", val)}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger className="w-full p-5">
                                     <SelectValue placeholder="All Materials" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -217,7 +218,7 @@ export function TransactionsView({
                         <div className="space-y-2">
                             <Label>Date Range</Label>
                             <Popover>
-                                <PopoverTrigger asChild>
+                                <PopoverTrigger asChild className="w-full p-5">
                                     <Button variant="outline" className="w-full justify-start text-left font-normal">
                                         <Calendar className="mr-2 h-4 w-4" />
                                         {startDate && endDate
@@ -308,7 +309,7 @@ export function TransactionsView({
                         {/* Export Button */}
                         <div className="space-y-2">
                             <Label className="opacity-0">Actions</Label>
-                            <Button variant="outline" className="w-full" onClick={handleExport}>
+                            <Button variant="outline" className="w-full py-6 flex items-center justify-center" onClick={handleExport}>
                                 <Download className="mr-2 h-4 w-4" />
                                 Export CSV
                             </Button>

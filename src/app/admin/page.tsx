@@ -24,7 +24,7 @@ export default async function AdminDashboardPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold font-heading">Dashboard</h1>
                     <p className="text-muted-foreground mt-1">

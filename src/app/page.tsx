@@ -16,7 +16,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-16 md:pt-48 md:pb-32">
+      <section className="relative overflow-hidden min-h-screen flex items-center pt-32 pb-16 md:pt-48 md:pb-32  px-7">
         {/* Background Effects */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-linear-to-r from-transparent to-gray-500/10 bg-size-[40px_40px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
@@ -24,18 +24,18 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto space-y-10">
+          <div className="text-center max-w-5xl mx-auto space-y-14">
             {/* Mentor Badge */}
             <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <div className="inline-flex items-center gap-3 bg-muted/50 border border-border/50 rounded-full px-4 py-1.5 backdrop-blur-md">
-                <div className="flex -space-x-2">
-                  <div className="w-6 h-6 rounded-full border-2 border-background bg-primary/20 overflow-hidden">
+              <div className="inline-flex items-center gap-3 bg-muted/50 border border-border/50 rounded-full px-5 py-2 backdrop-blur-md shadow-sm transition-transform hover:scale-105 cursor-default">
+                <div className="flex -space-x-3">
+                  <div className="w-8 h-8 rounded-full border-2 border-background bg-primary/20 overflow-hidden">
                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" className="w-full h-full object-cover" />
                   </div>
-                  <div className="w-6 h-6 rounded-full border-2 border-background bg-secondary/20 overflow-hidden">
+                  <div className="w-8 h-8 rounded-full border-2 border-background bg-secondary/20 overflow-hidden">
                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" alt="Avatar" className="w-full h-full object-cover" />
                   </div>
-                  <div className="w-6 h-6 rounded-full border-2 border-background bg-accent/20 overflow-hidden">
+                  <div className="w-8 h-8 rounded-full border-2 border-background bg-accent/20 overflow-hidden">
                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" alt="Avatar" className="w-full h-full object-cover" />
                   </div>
                 </div>
@@ -44,14 +44,19 @@ export default function HomePage() {
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
-              <h1 className={`text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-heading tracking-tight leading-[1.1] ${ibm_plex_sans.className}`}>
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
+              <h1 className={`text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight leading-[1.05] ${ibm_plex_sans.className}`}>
                 Elevating Education
-                <span className="block text-foreground/90">
-                  with <span className="bg-linear-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">KwizHub</span>
+                <span className="block text-foreground/90 mt-2">
+                  with <span className="bg-linear-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent relative">
+                    KwizHub
+                    <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary/20 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                      <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
+                    </svg>
+                  </span>
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">
                 Unlock your potential with premium study materials, past questions, and academic resources.
                 The smarter way to excel in your academic journey.
               </p>
@@ -71,7 +76,7 @@ export default function HomePage() {
         </div>
       </section>
       {/* Social Proof / Stats Section */}
-      <section className="py-24 bg-background border-t border-border/40">
+      <section className="py-24 bg-background border-t border-border/40 px-7">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           <div className="text-center space-y-6 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-1.5 text-sm font-medium text-primary">
@@ -106,7 +111,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-background px-4">
+      <section className="py-24 bg-background px-10">
         <div className="max-w-7xl mx-auto space-y-20">
           {/* Section Header */}
           <div className="grid md:grid-cols-2 gap-8 items-start">
@@ -197,7 +202,7 @@ export default function HomePage() {
 
 
       {/* App CTA Section */}
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-24 bg-background relative overflow-hidden px-7">
         <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -247,7 +252,7 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-32 overflow-hidden px-10">
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/5 to-transparent" />

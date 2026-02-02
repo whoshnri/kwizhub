@@ -29,7 +29,12 @@ export async function GET(req: NextRequest) {
                         id: true,
                         name: true,
                         price: true,
-                        admin : {
+                        admin: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        coAuthor: {
                             select: {
                                 name: true,
                             }
@@ -37,8 +42,12 @@ export async function GET(req: NextRequest) {
                         course: true,
                         courseCode: true,
                         pdfPath: true,
-                        bunnyCdnUrl: true,  
+                        bunnyCdnUrl: true,
                         semester: true,
+                        department: true,
+                        level: true,
+                        category: true,
+                        createdAt: true,
                     },
                 },
             },

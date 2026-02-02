@@ -56,7 +56,7 @@ export function UserSidebar({ username, email, initials }: UserSidebarProps) {
 
 
     return (
-        <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
+        <div className="flex h-full w-64 flex-col border-r border-border bg-card">
             {/* Logo */}
             <div className="flex h-16 items-center border-b border-border px-6">
                 <Link href="/" className="flex items-center gap-2">

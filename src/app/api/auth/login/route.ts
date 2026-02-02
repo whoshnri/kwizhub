@@ -41,8 +41,9 @@ export async function POST(req: NextRequest) {
                 id: user.id,
                 email: user.email,
                 username: user.username,
+                name: user.name,
                 material_count: user._count.materials,
-                createdAt : user.createdAt
+                createdAt: user.createdAt
 
             },
         });
