@@ -14,7 +14,7 @@ async function main() {
             email: "admin@kwizhub.com",
             username: "admin",
             passwordHash: adminPassword,
-            wallet: 15000,
+
         },
     });
     console.log("✅ Created admin:", admin.email);
@@ -28,6 +28,7 @@ async function main() {
             email: "john@example.com",
             username: "johndoe",
             passwordHash: userPassword,
+            
         },
     });
 
@@ -51,7 +52,11 @@ async function main() {
             email: "drsmith@kwizhub.com",
             username: "drsmith",
             passwordHash: adminPassword,
-            wallet: 0,
+            wallet: {
+                create: {
+                    balance: 0
+                }
+            }
         },
     });
 
