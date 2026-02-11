@@ -20,25 +20,25 @@ export function FinalCTA() {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10 relative z-10">
                 <div className="space-y-4">
                     <h2 className={`text-4xl md:text-6xl font-bold font-heading tracking-tight leading-[1.1] ${ibm_plex_sans.className}`}>
-                        Ready to Excel in <br />
-                        Your <span className="text-primary">Studies?</span>
+                        Ready to Scale Your <br />
+                        Academic <span className="text-primary">Impact?</span>
                     </h2>
                     <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                        Join thousands of students improving their grades with verified materials.
-                        Start your journey to academic excellence today.
+                        Join the elite circle of academic creators sharing their knowledge and earning from their expertise.
+                        Start your journey as a KwizHub author today.
                     </p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Link href="/signup" className="w-full sm:w-auto">
+                    <Link href="/signup?role=author" className="w-full sm:w-auto">
                         <Button size="lg" className="w-full sm:w-auto text-base px-10 h-14 rounded-full bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/90 group transition-all shadow-xl shadow-primary/5">
-                            Create Free Account
+                            Become an Author
                             <ArrowRight className="ml-2 h-4 w-4 -rotate-45 group-hover:rotate-0 transition-transform" />
                         </Button>
                     </Link>
-                    <Link href="/marketplace" className="w-full sm:w-auto">
+                    <Link href="/authors" className="w-full sm:w-auto">
                         <Button size="lg" variant="outline" className="w-full sm:w-auto text-base px-10 h-14 rounded-full border-2 transition-all">
-                            Explore Materials
+                            Meet Our Creators
                         </Button>
                     </Link>
                 </div>

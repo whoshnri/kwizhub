@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { IBM_Plex_Sans } from "next/font/google";
+import { dmSans, ibmPlexSans, poppins } from "@/app/layout";
+import { Highlight } from "../ui/hero-highlight";
 
 const ibm_plex_sans = IBM_Plex_Sans({
     subsets: ["latin"],
@@ -33,34 +35,27 @@ export function Hero() {
                                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" alt="Avatar" className="w-full h-full object-cover" />
                                 </div>
                             </div>
-                            <span className="text-sm font-medium text-foreground/80">100+ Quality Materials Available</span>
+                            <span className="text-sm font-medium text-foreground/80">Join 100+ Top Academic Creators</span>
                         </div>
                     </div>
 
                     {/* Main Heading */}
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
-                        <h1 className={`text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tight leading-[1.05] ${ibm_plex_sans.className}`}>
-                            Elevating Education
-                            <span className="block text-foreground/90 mt-2">
-                                with <span className="bg-linear-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent relative">
-                                    KwizHub
-                                    <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary/20 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                        <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
-                                    </svg>
-                                </span>
-                            </span>
+                        <h1 className={`text-4xl grid sm:text-5xl md:text-7xl lg:text-8xl font-bold font-heading tracking-tighter ${ibmPlexSans.className}`}>
+                            Monetize Your
+                            <Highlight className="bg-blue-950 w-fit">Acedemic Expertise</Highlight>
                         </h1>
-                        <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-medium">
-                            Unlock your potential with premium study materials, past questions, and academic resources.
-                            The smarter way to excel in your academic journey.
+                        <p className={`text-xl text-muted-foreground max-w-3xl mx-auto  font-medium ${poppins.className}`}>
+                            The premier marketplace for verified academic resources.
+                            Publish your materials, reach thousands of students, and scale your impact.
                         </p>
                     </div>
 
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-                        <Link href="/marketplace" className="w-full sm:w-auto">
+                        <Link href="/signup?role=author" className="w-full sm:w-auto">
                             <Button size="lg" className="w-full sm:w-auto text-base px-10 h-14 rounded-full bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/90 group transition-all cursor-pointer">
-                                Start Learning Now
+                                Start Publishing Now
                                 <ArrowRight className="ml-2 h-4 w-4 -rotate-45 group-hover:rotate-0 transition-transform" />
                             </Button>
                         </Link>
