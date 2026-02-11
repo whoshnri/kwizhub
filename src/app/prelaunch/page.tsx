@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { Features } from "@/components/landing/features";
 import { Highlight } from "@/components/ui/hero-highlight";
-import { IconBookUpload, IconCurrencyNaira, IconMoneybagPlus, IconBrandX } from "@tabler/icons-react"
+import { IconBookUpload, IconCurrencyNaira, IconMoneybagPlus, IconBrandX, IconShieldCheck } from "@tabler/icons-react"
 import { useEffect, useState } from "react";
 
 
@@ -93,7 +93,7 @@ export default function PrelaunchPage() {
                             <div className="pt-8 border-t border-white/5 flex items-center gap-4">
                                 <div className="flex -space-x-3">
                                     {["J", "K", "H", "O"].map(i => (
-                                        <div key={i} className={`w-10 h-10 rounded-full border-4 border-zinc-950 bg-zinc-800 flex items-center justify-center text-xs font-bold ${i === "O" ? 'bg-primary text-white' : 'text-zinc-500'}`}>
+                                        <div key={i} className={`p-3 w-fit rounded-full border-4 border-zinc-950 bg-zinc-800 flex items-center justify-center text-xs font-bold ${i === "O" ? 'bg-primary text-white' : 'text-zinc-500'}`}>
                                             {i}
                                         </div>
                                     ))}
@@ -112,23 +112,23 @@ export default function PrelaunchPage() {
                             <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-primary/20 blur-[120px] rounded-full opacity-30 group-hover:opacity-40 transition-opacity duration-1000" />
                         </motion.div>
 
-                        {/* Right Column: Author Benefits (3 Dynamic Cards) */}
-                        <div className="lg:col-span-5 grid grid-cols-1 gap-2 h-full">
+                        {/* Right Column: Author Benefits (4 Dynamic Cards) */}
+                        <div className="lg:col-span-5 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-2 h-full">
 
                             {/* Benefit 1: Publish */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}
-                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-8 lg:p-10 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300"
+                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-6 lg:p-8 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300"
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6  transition-transform">
-                                    <IconBookUpload className="w-5 h-5 text-primary" />
+                                <div className="p-3 w-fit rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform">
+                                    <IconBookUpload className="w-10 h-10 text-primary" />
                                 </div>
-                                <div className="space-y-3">
-                                    <h3 className="text-2xl font-bold text-white tracking-tight">Post Materials</h3>
-                                    <p className="text-zinc-400 text-sm leading-relaxed">
-                                        Upload your verified study guides, past questions, and academic resources effortlessly to our global library.
+                                <div className="space-y-2">
+                                    <h3 className="text-xl font-bold text-white tracking-tight">Post Materials</h3>
+                                    <p className="text-zinc-400 text-xs sm:text-lg  leading-relaxed">
+                                        Upload verified study guides, past questions, and academic resources effortlessly.
                                     </p>
                                 </div>
                             </motion.div>
@@ -138,33 +138,51 @@ export default function PrelaunchPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.4 }}
-                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-8 lg:p-10 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300"
+                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-6 lg:p-8 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300"
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6  transition-transform">
-                                    <IconMoneybagPlus className="w-5 h-5 text-primary" />
+                                <div className="p-3 w-fit rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform">
+                                    <IconMoneybagPlus className="w-10 h-10 text-primary" />
                                 </div>
-                                <div className="space-y-3">
-                                    <h3 className="text-2xl font-bold text-white tracking-tight">Direct Purchases</h3>
-                                    <p className="text-zinc-400 text-sm leading-relaxed">
-                                        Get paid instantly for every material purchase. Full transparency on sales and earnings, tracked in real-time.
+                                <div className="space-y-2">
+                                    <h3 className="text-xl font-bold text-white tracking-tight">Direct Purchases</h3>
+                                    <p className="text-zinc-400 text-xs sm:text-lg  leading-relaxed">
+                                        Get paid instantly for every material purchase. Full transparency on sales and earnings.
                                     </p>
                                 </div>
                             </motion.div>
 
-                            {/* Benefit 3: Refer & Withdraw */}
+                            {/* Benefit 3: Secure App */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.5 }}
+                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-6 lg:p-8 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300"
+                            >
+                                <div className="p-3 w-fit rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform">
+                                    <IconShieldCheck className="w-10 h-10 text-primary" />
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="text-xl font-bold text-white tracking-tight">Secure Reading App</h3>
+                                    <p className="text-zinc-400 text-xs sm:text-lg  leading-relaxed">
+                                        Materials are protected within our secure reading offline application, preventing unauthorized distribution.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            {/* Benefit 4: Refer & Withdraw */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.6 }}
-                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-8 lg:p-10 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300 relative overflow-hidden"
+                                className="bg-zinc-950/40 border border-white/10 rounded-2xl p-6 lg:p-8 flex flex-col justify-between group hover:bg-zinc-900/50 transition-all duration-300 relative overflow-hidden"
                             >
-                                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6  transition-transform">
-                                    <IconCurrencyNaira className="w-5 h-5 text-primary" />
+                                <div className="p-3 w-fit rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform">
+                                    <IconCurrencyNaira className="w-10 h-10 text-primary" />
                                 </div>
-                                <div className="space-y-3 relative z-10">
-                                    <h3 className="text-2xl font-bold text-white tracking-tight">Earn & Withdraw</h3>
-                                    <p className="text-zinc-400 text-sm leading-relaxed">
-                                        Earn from your referrals and withdraw your accumulated earnings securely whenever you want.
+                                <div className="space-y-2 relative z-10">
+                                    <h3 className="text-xl font-bold text-white tracking-tight">Withdraw Anytime</h3>
+                                    <p className="text-zinc-400 text-xs sm:text-lg  leading-relaxed">
+                                        Withdraw your accumulated earnings securely into your local bank account instantly.
                                     </p>
                                 </div>
                                 {/* Visual Accent */}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Globe, Coins, FileBadge, BarChart3, ArrowRight } from "lucide-react";
+import { Globe, Coins, FileBadge, BarChart3, ArrowRight, ShieldCheck } from "lucide-react";
 import { IBM_Plex_Sans } from "next/font/google";
 import { IconNetwork } from "@tabler/icons-react";
 
@@ -80,21 +80,16 @@ export function Features({ hideCTA = false }: { hideCTA?: boolean }) {
                         <h3 className="text-xl font-bold font-heading px-4">Intellectual Property Rights</h3>
                     </div>
 
-                    {/* Item 4: Analytics */}
+                    {/* Item 4: Secure App */}
                     <div className="space-y-8 flex flex-col items-center text-center group">
                         <div className="h-40 w-full flex items-center justify-center relative">
-                             <div className="absolute w-28 h-28 rounded-xl border border-primary/10 rotate-90 group-hover:rotate-90 transition-transform duration-1000" />
-                            <div className="absolute bottom-10 flex items-end gap-1.5 px-4 h-12">
-                                <div className="w-3 bg-primary/10 rounded-t-sm h-4 group-hover:h-8 transition-all duration-500 delay-0" />
-                                <div className="w-3 bg-primary/20 rounded-t-sm h-6 group-hover:h-12 transition-all duration-500 delay-75" />
-                                <div className="w-3 bg-primary/40 rounded-t-sm h-4 group-hover:h-10 transition-all duration-500 delay-150" />
-                                <div className="w-3 bg-primary rounded-t-sm h-8 group-hover:h-14 transition-all duration-500 delay-300" />
+                            <div className="absolute w-28 h-28 rounded-full border border-primary/10 group-hover:scale-110 transition-transform duration-500" />
+                            <div className="relative w-24 h-24 rounded-2xl bg-linear-to-br from-primary/20 to-primary/5 border-2 border-primary/30 flex items-center justify-center group-hover:rotate-6 transition-transform duration-500">
+                                <ShieldCheck className="w-12 h-12 text-primary" />
                             </div>
-                            {/* <div className="relative z-10 w-16 h-16 rounded-2xl bg-zinc-950 border border-white/10 flex items-center justify-center shadow-xl group-hover:translate-y-[-4px] transition-transform">
-                                <BarChart3 className="w-8 h-8 text-white group-hover:text-primary transition-colors" />
-                            </div> */}
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.05),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
-                        <h3 className="text-xl font-bold font-heading px-4">Comprehensive Sales Analytics</h3>
+                        <h3 className="text-xl font-bold font-heading px-4">Secure Reading App</h3>
                     </div>
                 </div>
             </div>

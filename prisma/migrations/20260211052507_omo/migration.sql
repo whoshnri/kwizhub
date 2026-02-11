@@ -1,4 +1,4 @@
--- CreateEnum
+git -- CreateEnum
 CREATE TYPE "Semester" AS ENUM ('FIRST', 'SECOND');
 
 -- CreateEnum
