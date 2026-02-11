@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Admin'
+export type * from './models/Wallet'
 export type * from './models/Material'
 export type * from './models/Order'
 export type * from './models/Withdrawal'

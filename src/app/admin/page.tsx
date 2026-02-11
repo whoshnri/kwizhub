@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { getAdminStats, getMaterialEarnings } from "@/app/actions/withdrawals";
 import { getPendingCoAuthorRequests } from "@/app/actions/materials";
 import { CoAuthorRequests } from "./co-author-requests";
+import { WithdrawalModal } from "@/components/admin/withdrawal-modal";
 import {
     Table,
     TableBody,
@@ -45,7 +46,7 @@ export default async function AdminDashboardPage() {
             <CoAuthorRequests requests={pendingRequests} />
 
             {/* Wallet Card */}
-            <Card className="bg-gradient-to-br from-primary to-blue-900 text-white">
+            <Card className="">
                 <CardHeader>
                     <CardDescription className="text-blue-100">Wallet Balance</CardDescription>
                     <CardTitle className="text-5xl font-heading">₦{stats.wallet.toLocaleString()}</CardTitle>
@@ -53,17 +54,17 @@ export default async function AdminDashboardPage() {
                 <CardContent>
                     <div className="flex items-center justify-between">
                         <span className="text-blue-100">Available for withdrawal</span>
-                        <Link href="/admin/withdrawals">
+                        <WithdrawalModal balance={stats.wallet}>
                             <Button variant="secondary" size="sm">
                                 Withdraw
                             </Button>
-                        </Link>
+                        </WithdrawalModal>
                     </div>
                 </CardContent>
             </Card>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <Card>
                     <CardHeader className="pb-2">
                         <CardDescription>Total Earnings</CardDescription>

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { createOrder } from "@/app/actions/orders";
 import { generateReferralCode } from "@/app/actions/referrals";
+import Script from "next/script";
 import { Combobox } from "./combo-box";
 import { $Enums } from "@/generated/prisma/client";
 import Link from "next/link";
@@ -54,11 +55,13 @@ export function MarketplaceContent({
     initialMaterials,
     adminId,
     userId,
+    userEmail,
     purchasedMaterialIds = [],
 }: {
     initialMaterials: Material[];
     adminId?: string;
     userId?: string;
+    userEmail?: string;
     purchasedMaterialIds?: string[];
 }) {
     const router = useRouter();
@@ -70,6 +73,9 @@ export function MarketplaceContent({
     const [purchasing, setPurchasing] = useState(false);
     const [generating, setGenerating] = useState(false);
     const [referralCode, setReferralCode] = useState("");
+
+    // User Email for Paystack (fallback if not provided in props)
+    const email = userEmail || "customer@kwizhub.com";
 
     // Referral Generation State
     const [newReferralCode, setNewReferralCode] = useState("");
@@ -130,23 +136,95 @@ export function MarketplaceContent({
 
     async function handlePurchase() {
         if (!selectedMaterial) return;
+
+        // Ensure user is logged in (unless we allow guest checkout, but verifyPurchase expects userId)
+        // For now, if no userId, we redirect to login (UI shows "Purchase" button leading to login if !isAuthenticated, so we should be safe here if isAuthenticated is checked).
+        // Wait, isAuthenticated = userId || adminId. Admin can buy?
+        // Let's assume yes. 
+
         setPurchasing(true);
 
-        const result = await createOrder({
-            materialId: selectedMaterial.id,
-            referralCode: referralCode || undefined
+        // Dynamically import Paystack to avoid SSR "window is not defined" error
+        const PaystackModule = await import('@paystack/inline-js');
+        const Paystack = PaystackModule.default || PaystackModule;
+        const paystack = new Paystack();
+
+        paystack.newTransaction({
+            key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
+            email: email, // Use the resolved email
+            amount: selectedMaterial.price * 100, // In Kobo
+            metadata: {
+                custom_fields: [
+                    {
+                        display_name: "Material ID",
+                        variable_name: "materialId",
+                        value: selectedMaterial.id
+                    },
+                    {
+                        display_name: "User ID",
+                        variable_name: "userId",
+                        value: userId || adminId || ""
+                    },
+                    {
+                        display_name: "Referral Code",
+                        variable_name: "referralCode",
+                        value: referralCode || ""
+                    }
+                ]
+            },
+            onSuccess: (transaction: { reference: string }) => {
+                const toastId = toast.loading("Confirming transaction...");
+
+                // Listen for webhook confirmation via SSE
+                const eventSource = new EventSource(`/api/payment-status/${transaction.reference}`);
+
+                eventSource.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+
+                        if (data.type === "connected") {
+                            // Still waiting for webhook
+                            return;
+                        }
+
+                        if (data.type === "payment_status") {
+                            toast.dismiss(toastId);
+                            eventSource.close();
+
+                            if (data.success) {
+                                toast.success(data.message || "Purchase confirmed!");
+                                setShowPurchaseDialog(false);
+                                setReferralCode("");
+                                router.push("/user/materials");
+                            } else {
+                                toast.error(data.message || "Payment verification failed");
+                            }
+                            setPurchasing(false);
+                        }
+
+                        if (data.type === "timeout") {
+                            toast.dismiss(toastId);
+                            eventSource.close();
+                            toast.info(data.message || "Payment is being processed. Check your dashboard.");
+                            setPurchasing(false);
+                        }
+                    } catch {
+                        // Ignore parse errors
+                    }
+                };
+
+                eventSource.onerror = () => {
+                    toast.dismiss(toastId);
+                    eventSource.close();
+                    toast.info("Payment is being processed. Check your dashboard shortly.");
+                    setPurchasing(false);
+                };
+            },
+            onCancel: () => {
+                setPurchasing(false);
+                toast.error("Payment cancelled");
+            }
         });
-
-        if (result.success) {
-            toast.success(result.message);
-            setShowPurchaseDialog(false);
-            setReferralCode("");
-            router.push("/user/materials");
-        } else {
-            toast.error(result.message);
-        }
-
-        setPurchasing(false);
     }
 
     async function handleGenerateReferral(e: React.FormEvent) {
@@ -182,6 +260,7 @@ export function MarketplaceContent({
 
     return (
         <div className="space-y-12">
+            <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
             {/* Filters */}
             <div className="bg-card/50 backdrop-blur-sm border border-border/40 rounded-3xl p-6 sm:p-8 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
@@ -340,7 +419,7 @@ export function MarketplaceContent({
                     </div>
                     <p className="text-xl font-medium text-foreground/80">No materials found</p>
                     <p className="text-muted-foreground max-w-sm mx-auto">
-                        Try adjusting your filters or search keywords to find what you're looking for.
+                        Try adjusting your filters or search keywords to find what you&apos;re looking for.
                     </p>
                     <Button variant="outline" onClick={clearFilters} className="rounded-full mt-4">
                         View All Materials
@@ -351,7 +430,7 @@ export function MarketplaceContent({
                     {materials.map((material) => {
                         const isOwned = purchasedMaterialIds.includes(material.id);
                         return (
-                            <Card key={material.id} className="group flex flex-col bg-card/40 backdrop-blur-md border-border/40 rounded-3xl overflow-hidden transition-all duration-300 hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5">
+                            <Card key={material.id} className="group flex flex-col bg-card/40 backdrop-blur-md border-border/40 rounded-3xl overflow-hidden transition-all duration-300 hover:border-primary/20 ">
                                 <CardHeader className="p-4 md:p-6 pb-2 md:pb-3">
                                     <div className="flex items-center justify-between gap-2 mb-2 md:mb-3">
                                         <div className="w-7 h-7 md:w-8 md:h-8 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
@@ -454,11 +533,11 @@ export function MarketplaceContent({
 
             {/* Purchase Dialog */}
             <Dialog open={showPurchaseDialog} onOpenChange={setShowPurchaseDialog}>
-                <DialogContent className="rounded-4xl sm:max-w-[425px] border-border/40 bg-card/95 backdrop-blur-xl">
+                <DialogContent className="rounded-4xl scale-90 sm:max-w-[425px] border-border/40 bg-card/95 backdrop-blur-xl">
                     <DialogHeader>
-                        <DialogTitle className={`text-2xl font-bold ${ibm_plex_sans.className}`}>Confirm Purchase</DialogTitle>
+                        <DialogTitle className={`text-2xl py-5 font-bold ${ibm_plex_sans.className}`}>Confirm Purchase</DialogTitle>
                         <DialogDescription className="text-base">
-                            Join thousands of students learning smarter.
+                            Join the community of students learning smarter.
                         </DialogDescription>
                     </DialogHeader>
 
@@ -497,14 +576,14 @@ export function MarketplaceContent({
                         </div>
                     )}
 
-                    <DialogFooter className="gap-3 sm:gap-0">
+                    <DialogFooter className="gap-3 sm:gap-3">
                         <Button variant="ghost" onClick={() => setShowPurchaseDialog(false)} className="rounded-full h-12">
                             Cancel
                         </Button>
                         <Button
                             onClick={handlePurchase}
                             disabled={purchasing}
-                            className="rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+                            className="rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground "
                         >
                             {purchasing ? "Processing..." : "Complete Purchase"}
                         </Button>
@@ -565,7 +644,7 @@ export function MarketplaceContent({
                                 <Button
                                     type="submit"
                                     disabled={generating}
-                                    className="rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20"
+                                    className="rounded-full h-12 px-8 bg-primary hover:bg-primary/90 text-primary-foreground "
                                 >
                                     {generating ? "Generating..." : "Generate Code"}
                                 </Button>

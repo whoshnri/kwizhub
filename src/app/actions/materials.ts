@@ -14,7 +14,7 @@ import { unlink } from "fs/promises";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import type { ActionResult } from "./auth";
-import { $Enums } from "@/generated/prisma/client";
+import { $Enums, Prisma } from "@/generated/prisma/client";
 import { uploadToBunnyCDN, deleteFromBunnyCDN } from "@/lib/bunny-cdn";
 
 const logUpload = (traceId: string, message: string, info: Record<string, unknown> = {}) => {
@@ -47,11 +47,7 @@ function checkUploadRateLimit(adminId: string): boolean {
     return true;
 }
 
-function generateReferralLink(): string {
-    const num = Math.floor(10000 + Math.random() * 90000);
-    return `REF-KH-${num}`;
-}
-
+// function removed because it was unused
 // File scanning placeholder
 async function scanFile(buffer: Buffer): Promise<boolean> {
     // Placeholder for file scanning implementation
@@ -343,8 +339,9 @@ export async function getMaterials(filters?: {
     semester?: $Enums.Semester;
     courseCode?: string;
     isFree?: boolean;
+    materialId?: string;
 }) {
-    const andConditions: any[] = [{ isPublished: true }];
+    const andConditions: Prisma.MaterialWhereInput[] = [{ isPublished: true }];
 
     if (filters?.search) {
         andConditions.push({
@@ -393,6 +390,10 @@ export async function getMaterials(filters?: {
                 { coAuthor: { username: { contains: filters.author, mode: "insensitive" } } },
             ]
         });
+    }
+
+    if (filters?.materialId) {
+        andConditions.push({ id: filters.materialId });
     }
 
     return prisma.material.findMany({

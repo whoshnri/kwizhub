@@ -39,6 +39,7 @@ export type WithdrawalMinAggregateOutputType = {
   amount: number | null
   status: string | null
   reference: string | null
+  externalId: string | null
   createdAt: Date | null
   adminId: string | null
   bankName: string | null
@@ -51,6 +52,7 @@ export type WithdrawalMaxAggregateOutputType = {
   amount: number | null
   status: string | null
   reference: string | null
+  externalId: string | null
   createdAt: Date | null
   adminId: string | null
   bankName: string | null
@@ -63,6 +65,7 @@ export type WithdrawalCountAggregateOutputType = {
   amount: number
   status: number
   reference: number
+  externalId: number
   createdAt: number
   adminId: number
   bankName: number
@@ -85,6 +88,7 @@ export type WithdrawalMinAggregateInputType = {
   amount?: true
   status?: true
   reference?: true
+  externalId?: true
   createdAt?: true
   adminId?: true
   bankName?: true
@@ -97,6 +101,7 @@ export type WithdrawalMaxAggregateInputType = {
   amount?: true
   status?: true
   reference?: true
+  externalId?: true
   createdAt?: true
   adminId?: true
   bankName?: true
@@ -109,6 +114,7 @@ export type WithdrawalCountAggregateInputType = {
   amount?: true
   status?: true
   reference?: true
+  externalId?: true
   createdAt?: true
   adminId?: true
   bankName?: true
@@ -208,6 +214,7 @@ export type WithdrawalGroupByOutputType = {
   amount: number
   status: string
   reference: string
+  externalId: string | null
   createdAt: Date
   adminId: string
   bankName: string
@@ -243,6 +250,7 @@ export type WithdrawalWhereInput = {
   amount?: Prisma.FloatFilter<"Withdrawal"> | number
   status?: Prisma.StringFilter<"Withdrawal"> | string
   reference?: Prisma.StringFilter<"Withdrawal"> | string
+  externalId?: Prisma.StringNullableFilter<"Withdrawal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Withdrawal"> | Date | string
   adminId?: Prisma.StringFilter<"Withdrawal"> | string
   bankName?: Prisma.StringFilter<"Withdrawal"> | string
@@ -256,6 +264,7 @@ export type WithdrawalOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference?: Prisma.SortOrder
+  externalId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
   bankName?: Prisma.SortOrder
@@ -267,6 +276,7 @@ export type WithdrawalOrderByWithRelationInput = {
 export type WithdrawalWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   reference?: string
+  externalId?: string
   AND?: Prisma.WithdrawalWhereInput | Prisma.WithdrawalWhereInput[]
   OR?: Prisma.WithdrawalWhereInput[]
   NOT?: Prisma.WithdrawalWhereInput | Prisma.WithdrawalWhereInput[]
@@ -278,13 +288,14 @@ export type WithdrawalWhereUniqueInput = Prisma.AtLeast<{
   accountName?: Prisma.StringFilter<"Withdrawal"> | string
   accountNo?: Prisma.StringFilter<"Withdrawal"> | string
   admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
-}, "id" | "reference">
+}, "id" | "reference" | "externalId">
 
 export type WithdrawalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference?: Prisma.SortOrder
+  externalId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
   bankName?: Prisma.SortOrder
@@ -305,6 +316,7 @@ export type WithdrawalScalarWhereWithAggregatesInput = {
   amount?: Prisma.FloatWithAggregatesFilter<"Withdrawal"> | number
   status?: Prisma.StringWithAggregatesFilter<"Withdrawal"> | string
   reference?: Prisma.StringWithAggregatesFilter<"Withdrawal"> | string
+  externalId?: Prisma.StringNullableWithAggregatesFilter<"Withdrawal"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Withdrawal"> | Date | string
   adminId?: Prisma.StringWithAggregatesFilter<"Withdrawal"> | string
   bankName?: Prisma.StringWithAggregatesFilter<"Withdrawal"> | string
@@ -317,6 +329,7 @@ export type WithdrawalCreateInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   bankName: string
   accountName: string
@@ -329,6 +342,7 @@ export type WithdrawalUncheckedCreateInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   adminId: string
   bankName: string
@@ -341,6 +355,7 @@ export type WithdrawalUpdateInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -353,6 +368,7 @@ export type WithdrawalUncheckedUpdateInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -365,6 +381,7 @@ export type WithdrawalCreateManyInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   adminId: string
   bankName: string
@@ -377,6 +394,7 @@ export type WithdrawalUpdateManyMutationInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -388,6 +406,7 @@ export type WithdrawalUncheckedUpdateManyInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -410,6 +429,7 @@ export type WithdrawalCountOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
   bankName?: Prisma.SortOrder
@@ -426,6 +446,7 @@ export type WithdrawalMaxOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
   bankName?: Prisma.SortOrder
@@ -438,6 +459,7 @@ export type WithdrawalMinOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reference?: Prisma.SortOrder
+  externalId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
   bankName?: Prisma.SortOrder
@@ -496,6 +518,7 @@ export type WithdrawalCreateWithoutAdminInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   bankName: string
   accountName: string
@@ -507,6 +530,7 @@ export type WithdrawalUncheckedCreateWithoutAdminInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   bankName: string
   accountName: string
@@ -547,6 +571,7 @@ export type WithdrawalScalarWhereInput = {
   amount?: Prisma.FloatFilter<"Withdrawal"> | number
   status?: Prisma.StringFilter<"Withdrawal"> | string
   reference?: Prisma.StringFilter<"Withdrawal"> | string
+  externalId?: Prisma.StringNullableFilter<"Withdrawal"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Withdrawal"> | Date | string
   adminId?: Prisma.StringFilter<"Withdrawal"> | string
   bankName?: Prisma.StringFilter<"Withdrawal"> | string
@@ -559,6 +584,7 @@ export type WithdrawalCreateManyAdminInput = {
   amount: number
   status: string
   reference: string
+  externalId?: string | null
   createdAt?: Date | string
   bankName: string
   accountName: string
@@ -570,6 +596,7 @@ export type WithdrawalUpdateWithoutAdminInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -581,6 +608,7 @@ export type WithdrawalUncheckedUpdateWithoutAdminInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -592,6 +620,7 @@ export type WithdrawalUncheckedUpdateManyWithoutAdminInput = {
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   reference?: Prisma.StringFieldUpdateOperationsInput | string
+  externalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bankName?: Prisma.StringFieldUpdateOperationsInput | string
   accountName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -605,6 +634,7 @@ export type WithdrawalSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   amount?: boolean
   status?: boolean
   reference?: boolean
+  externalId?: boolean
   createdAt?: boolean
   adminId?: boolean
   bankName?: boolean
@@ -618,6 +648,7 @@ export type WithdrawalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   amount?: boolean
   status?: boolean
   reference?: boolean
+  externalId?: boolean
   createdAt?: boolean
   adminId?: boolean
   bankName?: boolean
@@ -631,6 +662,7 @@ export type WithdrawalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   amount?: boolean
   status?: boolean
   reference?: boolean
+  externalId?: boolean
   createdAt?: boolean
   adminId?: boolean
   bankName?: boolean
@@ -644,6 +676,7 @@ export type WithdrawalSelectScalar = {
   amount?: boolean
   status?: boolean
   reference?: boolean
+  externalId?: boolean
   createdAt?: boolean
   adminId?: boolean
   bankName?: boolean
@@ -651,7 +684,7 @@ export type WithdrawalSelectScalar = {
   accountNo?: boolean
 }
 
-export type WithdrawalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "status" | "reference" | "createdAt" | "adminId" | "bankName" | "accountName" | "accountNo", ExtArgs["result"]["withdrawal"]>
+export type WithdrawalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amount" | "status" | "reference" | "externalId" | "createdAt" | "adminId" | "bankName" | "accountName" | "accountNo", ExtArgs["result"]["withdrawal"]>
 export type WithdrawalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
 }
@@ -672,6 +705,7 @@ export type $WithdrawalPayload<ExtArgs extends runtime.Types.Extensions.Internal
     amount: number
     status: string
     reference: string
+    externalId: string | null
     createdAt: Date
     adminId: string
     bankName: string
@@ -1105,6 +1139,7 @@ export interface WithdrawalFieldRefs {
   readonly amount: Prisma.FieldRef<"Withdrawal", 'Float'>
   readonly status: Prisma.FieldRef<"Withdrawal", 'String'>
   readonly reference: Prisma.FieldRef<"Withdrawal", 'String'>
+  readonly externalId: Prisma.FieldRef<"Withdrawal", 'String'>
   readonly createdAt: Prisma.FieldRef<"Withdrawal", 'DateTime'>
   readonly adminId: Prisma.FieldRef<"Withdrawal", 'String'>
   readonly bankName: Prisma.FieldRef<"Withdrawal", 'String'>

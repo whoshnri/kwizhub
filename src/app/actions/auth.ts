@@ -152,6 +152,12 @@ export async function createAdmin(input: CreateAdminInput): Promise<ActionResult
                 email: validated.email,
                 username: validated.username,
                 passwordHash,
+                wallet: {
+                    create: {
+                        balance: 0,
+                        currency: "NGN"
+                    }
+                }
             },
         });
 

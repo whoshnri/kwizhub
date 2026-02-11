@@ -20,18 +20,8 @@ export type AdminModel = runtime.Types.Result.DefaultSelection<Prisma.$AdminPayl
 
 export type AggregateAdmin = {
   _count: AdminCountAggregateOutputType | null
-  _avg: AdminAvgAggregateOutputType | null
-  _sum: AdminSumAggregateOutputType | null
   _min: AdminMinAggregateOutputType | null
   _max: AdminMaxAggregateOutputType | null
-}
-
-export type AdminAvgAggregateOutputType = {
-  wallet: number | null
-}
-
-export type AdminSumAggregateOutputType = {
-  wallet: number | null
 }
 
 export type AdminMinAggregateOutputType = {
@@ -40,7 +30,6 @@ export type AdminMinAggregateOutputType = {
   email: string | null
   username: string | null
   passwordHash: string | null
-  wallet: number | null
   createdAt: Date | null
 }
 
@@ -50,7 +39,6 @@ export type AdminMaxAggregateOutputType = {
   email: string | null
   username: string | null
   passwordHash: string | null
-  wallet: number | null
   createdAt: Date | null
 }
 
@@ -60,19 +48,10 @@ export type AdminCountAggregateOutputType = {
   email: number
   username: number
   passwordHash: number
-  wallet: number
   createdAt: number
   _all: number
 }
 
-
-export type AdminAvgAggregateInputType = {
-  wallet?: true
-}
-
-export type AdminSumAggregateInputType = {
-  wallet?: true
-}
 
 export type AdminMinAggregateInputType = {
   id?: true
@@ -80,7 +59,6 @@ export type AdminMinAggregateInputType = {
   email?: true
   username?: true
   passwordHash?: true
-  wallet?: true
   createdAt?: true
 }
 
@@ -90,7 +68,6 @@ export type AdminMaxAggregateInputType = {
   email?: true
   username?: true
   passwordHash?: true
-  wallet?: true
   createdAt?: true
 }
 
@@ -100,7 +77,6 @@ export type AdminCountAggregateInputType = {
   email?: true
   username?: true
   passwordHash?: true
-  wallet?: true
   createdAt?: true
   _all?: true
 }
@@ -143,18 +119,6 @@ export type AdminAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: AdminAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: AdminSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: AdminMinAggregateInputType
@@ -185,8 +149,6 @@ export type AdminGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: AdminCountAggregateInputType | true
-  _avg?: AdminAvgAggregateInputType
-  _sum?: AdminSumAggregateInputType
   _min?: AdminMinAggregateInputType
   _max?: AdminMaxAggregateInputType
 }
@@ -197,11 +159,8 @@ export type AdminGroupByOutputType = {
   email: string
   username: string
   passwordHash: string
-  wallet: number
   createdAt: Date
   _count: AdminCountAggregateOutputType | null
-  _avg: AdminAvgAggregateOutputType | null
-  _sum: AdminSumAggregateOutputType | null
   _min: AdminMinAggregateOutputType | null
   _max: AdminMaxAggregateOutputType | null
 }
@@ -230,8 +189,8 @@ export type AdminWhereInput = {
   email?: Prisma.StringFilter<"Admin"> | string
   username?: Prisma.StringFilter<"Admin"> | string
   passwordHash?: Prisma.StringFilter<"Admin"> | string
-  wallet?: Prisma.FloatFilter<"Admin"> | number
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
+  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   materials?: Prisma.MaterialListRelationFilter
   coAuthoredMaterials?: Prisma.MaterialListRelationFilter
   orders?: Prisma.OrderListRelationFilter
@@ -246,8 +205,8 @@ export type AdminOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  wallet?: Prisma.WalletOrderByWithRelationInput
   materials?: Prisma.MaterialOrderByRelationAggregateInput
   coAuthoredMaterials?: Prisma.MaterialOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
@@ -265,8 +224,8 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AdminWhereInput | Prisma.AdminWhereInput[]
   name?: Prisma.StringFilter<"Admin"> | string
   passwordHash?: Prisma.StringFilter<"Admin"> | string
-  wallet?: Prisma.FloatFilter<"Admin"> | number
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
+  wallet?: Prisma.XOR<Prisma.WalletNullableScalarRelationFilter, Prisma.WalletWhereInput> | null
   materials?: Prisma.MaterialListRelationFilter
   coAuthoredMaterials?: Prisma.MaterialListRelationFilter
   orders?: Prisma.OrderListRelationFilter
@@ -281,13 +240,10 @@ export type AdminOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AdminCountOrderByAggregateInput
-  _avg?: Prisma.AdminAvgOrderByAggregateInput
   _max?: Prisma.AdminMaxOrderByAggregateInput
   _min?: Prisma.AdminMinOrderByAggregateInput
-  _sum?: Prisma.AdminSumOrderByAggregateInput
 }
 
 export type AdminScalarWhereWithAggregatesInput = {
@@ -299,7 +255,6 @@ export type AdminScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   username?: Prisma.StringWithAggregatesFilter<"Admin"> | string
   passwordHash?: Prisma.StringWithAggregatesFilter<"Admin"> | string
-  wallet?: Prisma.FloatWithAggregatesFilter<"Admin"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Admin"> | Date | string
 }
 
@@ -309,8 +264,8 @@ export type AdminCreateInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
@@ -325,8 +280,8 @@ export type AdminUncheckedCreateInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
@@ -341,8 +296,8 @@ export type AdminUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
@@ -357,8 +312,8 @@ export type AdminUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
@@ -373,7 +328,6 @@ export type AdminCreateManyInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
 }
 
@@ -383,7 +337,6 @@ export type AdminUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -393,7 +346,6 @@ export type AdminUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -403,12 +355,7 @@ export type AdminCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type AdminAvgOrderByAggregateInput = {
-  wallet?: Prisma.SortOrder
 }
 
 export type AdminMaxOrderByAggregateInput = {
@@ -417,7 +364,6 @@ export type AdminMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -427,17 +373,7 @@ export type AdminMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   username?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
-  wallet?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-}
-
-export type AdminSumOrderByAggregateInput = {
-  wallet?: Prisma.SortOrder
-}
-
-export type AdminNullableScalarRelationFilter = {
-  is?: Prisma.AdminWhereInput | null
-  isNot?: Prisma.AdminWhereInput | null
 }
 
 export type AdminScalarRelationFilter = {
@@ -445,12 +381,23 @@ export type AdminScalarRelationFilter = {
   isNot?: Prisma.AdminWhereInput
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type AdminNullableScalarRelationFilter = {
+  is?: Prisma.AdminWhereInput | null
+  isNot?: Prisma.AdminWhereInput | null
+}
+
+export type AdminCreateNestedOneWithoutWalletInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutWalletInput, Prisma.AdminUncheckedCreateWithoutWalletInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutWalletInput
+  connect?: Prisma.AdminWhereUniqueInput
+}
+
+export type AdminUpdateOneRequiredWithoutWalletNestedInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutWalletInput, Prisma.AdminUncheckedCreateWithoutWalletInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutWalletInput
+  upsert?: Prisma.AdminUpsertWithoutWalletInput
+  connect?: Prisma.AdminWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutWalletInput, Prisma.AdminUpdateWithoutWalletInput>, Prisma.AdminUncheckedUpdateWithoutWalletInput>
 }
 
 export type AdminCreateNestedOneWithoutCoAuthoredMaterialsInput = {
@@ -539,14 +486,90 @@ export type AdminUpdateOneRequiredWithoutTransactionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutTransactionsInput, Prisma.AdminUpdateWithoutTransactionsInput>, Prisma.AdminUncheckedUpdateWithoutTransactionsInput>
 }
 
+export type AdminCreateWithoutWalletInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  passwordHash: string
+  createdAt?: Date | string
+  materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
+  coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
+  orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
+  withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutAdminInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutAdminInput
+  referralCodes?: Prisma.ReferralCodeCreateNestedManyWithoutReferrerInput
+}
+
+export type AdminUncheckedCreateWithoutWalletInput = {
+  id?: string
+  name: string
+  email: string
+  username: string
+  passwordHash: string
+  createdAt?: Date | string
+  materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
+  coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
+  withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutAdminInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutAdminInput
+  referralCodes?: Prisma.ReferralCodeUncheckedCreateNestedManyWithoutReferrerInput
+}
+
+export type AdminCreateOrConnectWithoutWalletInput = {
+  where: Prisma.AdminWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdminCreateWithoutWalletInput, Prisma.AdminUncheckedCreateWithoutWalletInput>
+}
+
+export type AdminUpsertWithoutWalletInput = {
+  update: Prisma.XOR<Prisma.AdminUpdateWithoutWalletInput, Prisma.AdminUncheckedUpdateWithoutWalletInput>
+  create: Prisma.XOR<Prisma.AdminCreateWithoutWalletInput, Prisma.AdminUncheckedCreateWithoutWalletInput>
+  where?: Prisma.AdminWhereInput
+}
+
+export type AdminUpdateToOneWithWhereWithoutWalletInput = {
+  where?: Prisma.AdminWhereInput
+  data: Prisma.XOR<Prisma.AdminUpdateWithoutWalletInput, Prisma.AdminUncheckedUpdateWithoutWalletInput>
+}
+
+export type AdminUpdateWithoutWalletInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
+  coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
+  withdrawals?: Prisma.WithdrawalUpdateManyWithoutAdminNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutAdminNestedInput
+  referralCodes?: Prisma.ReferralCodeUpdateManyWithoutReferrerNestedInput
+}
+
+export type AdminUncheckedUpdateWithoutWalletInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
+  coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
+  withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutAdminNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutAdminNestedInput
+  referralCodes?: Prisma.ReferralCodeUncheckedUpdateManyWithoutReferrerNestedInput
+}
+
 export type AdminCreateWithoutCoAuthoredMaterialsInput = {
   id?: string
   name: string
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutAdminInput
@@ -560,8 +583,8 @@ export type AdminUncheckedCreateWithoutCoAuthoredMaterialsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutAdminInput
@@ -580,8 +603,8 @@ export type AdminCreateWithoutMaterialsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutAdminInput
@@ -595,8 +618,8 @@ export type AdminUncheckedCreateWithoutMaterialsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutAdminInput
@@ -626,8 +649,8 @@ export type AdminUpdateWithoutCoAuthoredMaterialsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutAdminNestedInput
@@ -641,8 +664,8 @@ export type AdminUncheckedUpdateWithoutCoAuthoredMaterialsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutAdminNestedInput
@@ -667,8 +690,8 @@ export type AdminUpdateWithoutMaterialsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutAdminNestedInput
@@ -682,8 +705,8 @@ export type AdminUncheckedUpdateWithoutMaterialsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutAdminNestedInput
@@ -697,8 +720,8 @@ export type AdminCreateWithoutOrdersInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   withdrawals?: Prisma.WithdrawalCreateNestedManyWithoutAdminInput
@@ -712,8 +735,8 @@ export type AdminUncheckedCreateWithoutOrdersInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   withdrawals?: Prisma.WithdrawalUncheckedCreateNestedManyWithoutAdminInput
@@ -743,8 +766,8 @@ export type AdminUpdateWithoutOrdersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   withdrawals?: Prisma.WithdrawalUpdateManyWithoutAdminNestedInput
@@ -758,8 +781,8 @@ export type AdminUncheckedUpdateWithoutOrdersInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   withdrawals?: Prisma.WithdrawalUncheckedUpdateManyWithoutAdminNestedInput
@@ -773,8 +796,8 @@ export type AdminCreateWithoutWithdrawalsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
@@ -788,8 +811,8 @@ export type AdminUncheckedCreateWithoutWithdrawalsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
@@ -819,8 +842,8 @@ export type AdminUpdateWithoutWithdrawalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
@@ -834,8 +857,8 @@ export type AdminUncheckedUpdateWithoutWithdrawalsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
@@ -849,8 +872,8 @@ export type AdminCreateWithoutReferralCodesInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
@@ -864,8 +887,8 @@ export type AdminUncheckedCreateWithoutReferralCodesInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
@@ -895,8 +918,8 @@ export type AdminUpdateWithoutReferralCodesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
@@ -910,8 +933,8 @@ export type AdminUncheckedUpdateWithoutReferralCodesInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
@@ -925,8 +948,8 @@ export type AdminCreateWithoutTransactionsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderCreateNestedManyWithoutAdminInput
@@ -940,8 +963,8 @@ export type AdminUncheckedCreateWithoutTransactionsInput = {
   email: string
   username: string
   passwordHash: string
-  wallet?: number
   createdAt?: Date | string
+  wallet?: Prisma.WalletUncheckedCreateNestedOneWithoutAdminInput
   materials?: Prisma.MaterialUncheckedCreateNestedManyWithoutAdminInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedCreateNestedManyWithoutCoAuthorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutAdminInput
@@ -971,8 +994,8 @@ export type AdminUpdateWithoutTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutAdminNestedInput
@@ -986,8 +1009,8 @@ export type AdminUncheckedUpdateWithoutTransactionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   username?: Prisma.StringFieldUpdateOperationsInput | string
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
-  wallet?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallet?: Prisma.WalletUncheckedUpdateOneWithoutAdminNestedInput
   materials?: Prisma.MaterialUncheckedUpdateManyWithoutAdminNestedInput
   coAuthoredMaterials?: Prisma.MaterialUncheckedUpdateManyWithoutCoAuthorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutAdminNestedInput
@@ -1077,8 +1100,8 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   email?: boolean
   username?: boolean
   passwordHash?: boolean
-  wallet?: boolean
   createdAt?: boolean
+  wallet?: boolean | Prisma.Admin$walletArgs<ExtArgs>
   materials?: boolean | Prisma.Admin$materialsArgs<ExtArgs>
   coAuthoredMaterials?: boolean | Prisma.Admin$coAuthoredMaterialsArgs<ExtArgs>
   orders?: boolean | Prisma.Admin$ordersArgs<ExtArgs>
@@ -1094,7 +1117,6 @@ export type AdminSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   email?: boolean
   username?: boolean
   passwordHash?: boolean
-  wallet?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["admin"]>
 
@@ -1104,7 +1126,6 @@ export type AdminSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   email?: boolean
   username?: boolean
   passwordHash?: boolean
-  wallet?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["admin"]>
 
@@ -1114,12 +1135,12 @@ export type AdminSelectScalar = {
   email?: boolean
   username?: boolean
   passwordHash?: boolean
-  wallet?: boolean
   createdAt?: boolean
 }
 
-export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "username" | "passwordHash" | "wallet" | "createdAt", ExtArgs["result"]["admin"]>
+export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "username" | "passwordHash" | "createdAt", ExtArgs["result"]["admin"]>
 export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  wallet?: boolean | Prisma.Admin$walletArgs<ExtArgs>
   materials?: boolean | Prisma.Admin$materialsArgs<ExtArgs>
   coAuthoredMaterials?: boolean | Prisma.Admin$coAuthoredMaterialsArgs<ExtArgs>
   orders?: boolean | Prisma.Admin$ordersArgs<ExtArgs>
@@ -1134,6 +1155,7 @@ export type AdminIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Admin"
   objects: {
+    wallet: Prisma.$WalletPayload<ExtArgs> | null
     materials: Prisma.$MaterialPayload<ExtArgs>[]
     coAuthoredMaterials: Prisma.$MaterialPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
@@ -1147,7 +1169,6 @@ export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     email: string
     username: string
     passwordHash: string
-    wallet: number
     createdAt: Date
   }, ExtArgs["result"]["admin"]>
   composites: {}
@@ -1543,6 +1564,7 @@ readonly fields: AdminFieldRefs;
  */
 export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  wallet<T extends Prisma.Admin$walletArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$walletArgs<ExtArgs>>): Prisma.Prisma__WalletClient<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   materials<T extends Prisma.Admin$materialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$materialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   coAuthoredMaterials<T extends Prisma.Admin$coAuthoredMaterialsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$coAuthoredMaterialsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.Admin$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1583,7 +1605,6 @@ export interface AdminFieldRefs {
   readonly email: Prisma.FieldRef<"Admin", 'String'>
   readonly username: Prisma.FieldRef<"Admin", 'String'>
   readonly passwordHash: Prisma.FieldRef<"Admin", 'String'>
-  readonly wallet: Prisma.FieldRef<"Admin", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Admin", 'DateTime'>
 }
     
@@ -1970,6 +1991,25 @@ export type AdminDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Admins to delete.
    */
   limit?: number
+}
+
+/**
+ * Admin.wallet
+ */
+export type Admin$walletArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Wallet
+   */
+  select?: Prisma.WalletSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Wallet
+   */
+  omit?: Prisma.WalletOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WalletInclude<ExtArgs> | null
+  where?: Prisma.WalletWhereInput
 }
 
 /**

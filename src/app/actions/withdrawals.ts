@@ -30,13 +30,19 @@ export async function requestWithdrawal(
         // Get admin with current wallet balance
         const admin = await prisma.admin.findUnique({
             where: { id: session.id },
+            include: { wallet: true }
         });
 
         if (!admin) {
             return { success: false, message: "Admin not found" };
         }
+        if (!admin.wallet) {
+            // Should not happen if created properly, but safe check
+            const newWallet = await prisma.wallet.create({ data: { adminId: admin.id } });
+            admin.wallet = newWallet;
+        }
 
-        if (admin.wallet < validated.amount) {
+        if (admin.wallet.balance < validated.amount) {
             return { success: false, message: "Insufficient wallet balance" };
         }
 
@@ -81,7 +87,7 @@ export async function approveWithdrawal(
 
         const withdrawal = await prisma.withdrawal.findUnique({
             where: { id: validated.id },
-            include: { admin: true },
+            include: { admin: { include: { wallet: true } } },
         });
 
         if (!withdrawal) {
@@ -98,21 +104,31 @@ export async function approveWithdrawal(
         }
 
         if (validated.status === "APPROVED" || validated.status === "PAID") {
+            if (!withdrawal.admin.wallet) return { success: false, message: "Wallet not initialized" };
+
             // Check if admin still has enough balance
-            if (withdrawal.admin.wallet < withdrawal.amount) {
+            if (withdrawal.admin.wallet.balance < withdrawal.amount) {
                 return { success: false, message: "Insufficient wallet balance" };
             }
 
             // Deduct from wallet and update status
             await prisma.$transaction([
-                prisma.admin.update({
-                    where: { id: withdrawal.adminId },
-                    data: { wallet: { decrement: withdrawal.amount } },
+                prisma.wallet.update({
+                    where: { adminId: withdrawal.adminId },
+                    data: { balance: { decrement: withdrawal.amount } },
                 }),
                 prisma.withdrawal.update({
                     where: { id: validated.id },
                     data: { status: validated.status },
                 }),
+                prisma.transaction.create({
+                    data: {
+                        type: "WITHDRAWAL",
+                        amount: withdrawal.amount,
+                        description: `Withdrawal approved: ${withdrawal.reference}`,
+                        adminId: withdrawal.adminId,
+                    }
+                })
             ]);
         } else {
             // Just update status (REJECTED)
@@ -176,6 +192,7 @@ export async function getAdminStats() {
     const admin = await prisma.admin.findUnique({
         where: { id: session.id },
         include: {
+            wallet: true,
             _count: {
                 select: {
                     materials: true,
@@ -187,8 +204,11 @@ export async function getAdminStats() {
 
     if (!admin) return null;
 
-    const totalEarnings = await prisma.order.aggregate({
-        where: { adminId: session.id, status: "COMPLETED" },
+    const totalEarnings = await prisma.transaction.aggregate({
+        where: {
+            adminId: session.id,
+            type: { in: ["SALE", "REFERRAL_COMMISSION", "EQUITY_PAYMENT"] }
+        },
         _sum: { amount: true },
     });
 
@@ -198,7 +218,7 @@ export async function getAdminStats() {
     });
 
     return {
-        wallet: admin.wallet,
+        wallet: admin.wallet?.balance ?? 0,
         totalEarnings: totalEarnings._sum.amount ?? 0,
         totalMaterials: admin._count.materials,
         totalOrders: admin._count.orders,

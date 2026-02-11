@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getSession, Session } from "@/lib/session";
 import { useEffect, useState } from "react";
-import { Menu, X, ShoppingBag, MessageSquare } from "lucide-react";
+import { Menu, ShoppingBag, MessageSquare, User } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 
 export default function Navbar() {
@@ -59,6 +59,12 @@ export default function Navbar() {
                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                     >
                         Marketplace
+                    </Link>
+                    <Link
+                        href="/authors"
+                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                        Authors
                     </Link>
                     <Link
                         href="/contact"
@@ -129,6 +135,19 @@ export default function Navbar() {
                                         <div className="flex flex-col">
                                             <span className="text-base font-bold text-white">Marketplace</span>
                                             <span className="text-xs text-zinc-500">Browse materials</span>
+                                        </div>
+                                    </Link>
+                                    <Link
+                                        href="/authors"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="group flex items-center gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all duration-300"
+                                    >
+                                        <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/5 flex items-center justify-center group-hover:bg-primary group-hover:border-primary/20 transition-all">
+                                            <User className="h-5 w-5 text-zinc-400 group-hover:text-white" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-base font-bold text-white">Authors</span>
+                                            <span className="text-xs text-zinc-500">Meet our contributors</span>
                                         </div>
                                     </Link>
                                     <Link

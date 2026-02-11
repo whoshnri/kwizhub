@@ -50,6 +50,11 @@ export type User = Prisma.UserModel
  */
 export type Admin = Prisma.AdminModel
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = Prisma.WalletModel
+/**
  * Model Material
  * 
  */

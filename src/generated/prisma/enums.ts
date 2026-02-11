@@ -21,7 +21,8 @@ export const TransactionType = {
   SALE: 'SALE',
   WITHDRAWAL: 'WITHDRAWAL',
   REFERRAL_COMMISSION: 'REFERRAL_COMMISSION',
-  EQUITY_PAYMENT: 'EQUITY_PAYMENT'
+  EQUITY_PAYMENT: 'EQUITY_PAYMENT',
+  REFUND: 'REFUND'
 } as const
 
 export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]

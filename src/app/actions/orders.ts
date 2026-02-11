@@ -4,7 +4,6 @@ import prisma from "@/lib/db";
 import { getUserSession } from "@/lib/session";
 import { createOrderSchema, CreateOrderInput } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
-import { v4 as uuidv4 } from "uuid";
 import type { ActionResult } from "./auth";
 
 function generatePaymentRef(): string {
@@ -108,9 +107,9 @@ export async function createOrder(
                     }
                 });
 
-                await tx.admin.update({
-                    where: { id: referrerId },
-                    data: { wallet: { increment: referralCommission } }
+                await tx.wallet.update({
+                    where: { adminId: referrerId },
+                    data: { balance: { increment: referralCommission } }
                 });
 
                 remainingAmount -= referralCommission;
@@ -139,9 +138,9 @@ export async function createOrder(
                     }
                 });
 
-                await tx.admin.update({
-                    where: { id: material.coAuthorId },
-                    data: { wallet: { increment: coAuthorShare } }
+                await tx.wallet.update({
+                    where: { adminId: material.coAuthorId },
+                    data: { balance: { increment: coAuthorShare } }
                 });
 
                 remainingAmount -= coAuthorShare;
@@ -164,9 +163,9 @@ export async function createOrder(
                     }
                 });
 
-                await tx.admin.update({
-                    where: { id: material.adminId },
-                    data: { wallet: { increment: remainingAmount } },
+                await tx.wallet.update({
+                    where: { adminId: material.adminId },
+                    data: { balance: { increment: remainingAmount } },
                 });
             }
 

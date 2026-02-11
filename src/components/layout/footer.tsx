@@ -45,6 +45,7 @@ export default function Footer() {
                             <ul className="space-y-4">
                                 {[
                                     { name: 'Marketplace', href: '/marketplace' },
+                                    { name: 'Authors', href: '/authors' },
                                     { name: 'Sign In', href: '/login' },
                                     { name: 'Sign Up', href: '/signup' }
                                 ].map((item) => (

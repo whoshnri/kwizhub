@@ -27,6 +27,7 @@ export default async function MarketplacePage({
         courseCode: params.courseCode,
         category: params.category,
         isFree: params.price === "free" ? true : params.price === "paid" ? false : undefined,
+        materialId: params.materialId,
     });
 
     const adminSession = await getAdminSession();
@@ -77,6 +78,7 @@ export default async function MarketplacePage({
                             initialMaterials={materials}
                             adminId={adminSession?.id}
                             userId={userSession?.id}
+                            userEmail={userSession?.email || adminSession?.email}
                             purchasedMaterialIds={purchasedMaterialIds}
                         />
                     </Suspense>
