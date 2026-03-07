@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useMotionValue, motion, useMotionTemplate } from "motion/react";
+import { useTheme } from "next-themes";
 import React from "react";
 
 export const HeroHighlight = ({
@@ -111,6 +112,7 @@ export const Highlight = ({
   children: React.ReactNode;
   className?: string;
 }) => {
+  const {theme} = useTheme()
   return (
     <motion.span
       initial={{
@@ -130,7 +132,7 @@ export const Highlight = ({
         display: "inline",
       }}
       className={cn(
-        `relative inline-block rounded-lg bg-gradient-to-r from-indigo-300 to-purple-300 px-1 pb-1 dark:from-indigo-500 dark:to-purple-500`,
+        `relative inline-block ${theme === "dark" ? "bg-blue-950" : "bg-blue-50"} rounded-lg bg-gradient-to-r from-indigo-300 to-purple-300 px-1 pb-1 dark:from-indigo-500 dark:to-purple-500`,
         className,
       )}
     >

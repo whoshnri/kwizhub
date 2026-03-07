@@ -139,3 +139,6 @@ export const WITHDRAWAL_STATUS = {
     REJECTED: "REJECTED",
     PAID: "PAID",
 } as const;
+
+
+export const MIN_WITHDRAWAL_AMOUNT = 5000

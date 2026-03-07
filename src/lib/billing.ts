@@ -217,28 +217,9 @@ export async function processRefund(reference: string, reason: string = "Transfe
             }
         }
 
-        await prisma.$transaction(async (tx) => {
-            // Refund Wallet
-            await tx.wallet.update({
-                where: { adminId: withdrawal.adminId },
-                data: { balance: { increment: withdrawal.amount } }
-            });
-
-            // Mark FAILED
-            await tx.withdrawal.update({
-                where: { id: withdrawal.id },
-                data: { status: "FAILED" } // reason not in schema
-            });
-
-            // Log REFUND
-            await tx.transaction.create({
-                data: {
-                    type: "REFUND",
-                    amount: withdrawal.amount,
-                    description: `Refund: ${reason}`,
-                    adminId: withdrawal.adminId,
-                }
-            });
+        await prisma.withdrawal.update({
+            where: { id: withdrawal.id },
+            data: { status: "FAILED" }
         });
 
         return { success: true, message: "Refund processed" };
@@ -263,16 +244,37 @@ export async function completeWithdrawal(reference: string, externalId?: string)
 
         if (withdrawal.status === "PAID") return { success: true, message: "Already paid" };
 
-        await prisma.withdrawal.update({
-            where: { id: withdrawal.id },
-            data: {
-                status: "PAID", // Schema uses 'paid'? Schema says 'PAID' enum string or mapping
-                externalId: externalId
-            }
-        });
+        await prisma.$transaction(async (tx) => {
+            // Deduct Wallet
+            const walletUpdate = await tx.wallet.update({
+                where: { adminId: withdrawal.adminId },
+                data: { balance: { decrement: withdrawal.amount } }
+            });
 
-        // Note: Transaction "WITHDRAWAL" was already created at request/approval time.
-        // We do NOT create another one here, just update status.
+            // Ensure balance didn't somehow drop below 0
+            if (walletUpdate.balance < 0) {
+                throw new Error("Critical: Wallet balance would drop below zero on withdrawal completion");
+            }
+
+            // Update Withdrawal Status
+            await tx.withdrawal.update({
+                where: { id: withdrawal.id },
+                data: {
+                    status: "PAID",
+                    externalId: externalId
+                }
+            });
+
+            // Log Transaction NOW
+            await tx.transaction.create({
+                data: {
+                    type: "WITHDRAWAL",
+                    amount: withdrawal.amount,
+                    description: `Withdrawal to ${withdrawal.accountNo}`,
+                    adminId: withdrawal.adminId,
+                }
+            });
+        });
 
         return { success: true, message: "Withdrawal confirmed" };
     } catch (error) {

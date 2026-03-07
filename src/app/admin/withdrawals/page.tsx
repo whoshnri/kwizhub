@@ -16,7 +16,7 @@ export default async function AdminWithdrawalsPage() {
 
             <WithdrawalsContent
                 withdrawals={withdrawals}
-                walletBalance={stats?.wallet ?? 0}
+                walletBalance={Math.max(0, (stats?.wallet ?? 0) - (stats?.pendingWithdrawals ?? 0))}
             />
         </div>
     );

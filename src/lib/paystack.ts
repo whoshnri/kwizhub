@@ -116,6 +116,42 @@ interface PaystackResponse<T> {
 
 // --- API Functions ---
 
+export interface PaystackInitializeResponse {
+    authorization_url: string;
+    access_code: string;
+    reference: string;
+}
+
+export async function initializeTransaction(
+    email: string,
+    amount: number,
+    reference: string,
+    metadata: Record<string, unknown>
+): Promise<PaystackResponse<PaystackInitializeResponse>> {
+    try {
+        const body = {
+            email,
+            amount,
+            reference,
+            metadata
+        };
+
+        const response = await fetch(`${PAYSTACK_BASE_URL}/transaction/initialize`, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body),
+            cache: 'no-store'
+        });
+
+        const data = await response.json();
+        if (!response.ok) return { status: false, message: data.message || "Failed to initialize transaction", data: {} as any };
+        return data as PaystackResponse<PaystackInitializeResponse>;
+    } catch (error) {
+        console.error("Paystack initializeTransaction error:", error);
+        return { status: false, message: "Initialization exception", data: {} as any };
+    }
+}
+
 export async function listBanks(): Promise<PaystackResponse<PaystackBank[]>> {
     try {
         const response = await fetch(`${PAYSTACK_BASE_URL}/bank?currency=NGN`, {

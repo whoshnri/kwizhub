@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { SignJWT, jwtVerify } from "jose";
 import prisma from "./db";
 
 export type SessionUser = {
@@ -22,37 +23,51 @@ export type SessionAdmin = {
 export type Session = SessionUser | SessionAdmin | null;
 
 const SESSION_COOKIE = "kwizhub_session";
+const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days in seconds
+
+function getSecret(): Uint8Array {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) throw new Error("JWT_SECRET environment variable is not set");
+    return new TextEncoder().encode(secret);
+}
 
 export async function createSession(
     data: Omit<SessionUser, "type"> | Omit<SessionAdmin, "type">,
     type: "user" | "admin"
 ): Promise<void> {
-    const cookieStore = await cookies();
-    const session = JSON.stringify({ ...data, type });
-    const encoded = Buffer.from(session).toString("base64");
+    const payload = { ...data, type };
 
-    cookieStore.set(SESSION_COOKIE, encoded, {
+    const token = await new SignJWT(payload)
+        .setProtectedHeader({ alg: "HS256" })
+        .setIssuedAt()
+        .setExpirationTime(`${SESSION_MAX_AGE}s`)
+        .sign(getSecret());
+
+    const cookieStore = await cookies();
+    cookieStore.set(SESSION_COOKIE, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: SESSION_MAX_AGE,
         path: "/",
     });
 }
 
 export async function getSession(): Promise<Session> {
     const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get(SESSION_COOKIE);
+    const token = cookieStore.get(SESSION_COOKIE)?.value;
 
-    if (!sessionCookie?.value) {
-        return null;
-    }
+    if (!token) return null;
 
     try {
-        const decoded = Buffer.from(sessionCookie.value, "base64").toString();
-        const session = JSON.parse(decoded) as Session;
+        const { payload } = await jwtVerify(token, getSecret());
+        const session = payload as unknown as Session;
+        if (!session?.type || !["user", "admin"].includes(session.type)) {
+            return null;
+        }
         return session;
     } catch {
+        // Expired, tampered, or invalid token
         return null;
     }
 }
@@ -87,5 +102,3 @@ export async function destroySession(): Promise<void> {
     const cookieStore = await cookies();
     cookieStore.delete(SESSION_COOKIE);
 }
-
-// Generate signed download token

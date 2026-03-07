@@ -89,6 +89,9 @@ importers:
       icons:
         specifier: ^1.0.0
         version: 1.0.0
+      jose:
+        specifier: ^6.2.0
+        version: 6.2.0
       lucide-react:
         specifier: ^0.556.0
         version: 0.556.0(react@19.2.0)
@@ -4069,6 +4072,9 @@ packages:
   jiti@2.6.1:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
+
+  jose@6.2.0:
+    resolution: {integrity: sha512-xsfE1TcSCbUdo6U07tR0mvhg0flGxU8tPLbF03mirl2ukGQENhUg4ubGYQnhVH0b5stLlPM+WOqDkEl1R1y5sQ==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -10184,6 +10190,8 @@ snapshots:
       - ts-node
 
   jiti@2.6.1: {}
+
+  jose@6.2.0: {}
 
   js-tokens@4.0.0: {}
 

@@ -10,7 +10,7 @@ export function Stats() {
         <section className="py-24 bg-background border-t border-border/40 px-7">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
                 <div className="text-center space-y-6 max-w-3xl mx-auto">
-                    <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-1.5 text-sm font-medium text-primary">
+                    <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg px-4 py-1.5 text-sm font-medium text-primary">
                         <span>Why KwizHub?</span>
                     </div>
                     <h2 className={`text-3xl md:text-5xl font-bold font-heading tracking-tight leading-tight ${ibm_plex_sans.className}`}>
@@ -29,8 +29,8 @@ export function Stats() {
                         <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Materials Published</div>
                     </div>
                     <div className="text-center space-y-4 lg:border-r border-border/40 py-4 px-2">
-                        <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-primary">98%</div>
-                        <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Creator Satisfaction</div>
+                        <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-primary">&#8358;300K+</div>
+                        <div className="text-sm text-muted-foreground font-medium uppercase tracking-wider">Revenue Generated</div>
                     </div>
                     <div className="text-center space-y-4 lg:border-r border-border/40 py-4 px-2">
                         <div className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-primary">50+</div>

@@ -396,26 +396,36 @@ export async function getMaterials(filters?: {
         andConditions.push({ id: filters.materialId });
     }
 
-    return prisma.material.findMany({
-        where: { AND: andConditions },
-        include: {
-            admin: {
-                select: { name: true, username: true },
+    try {
+        return await prisma.material.findMany({
+            where: { AND: andConditions },
+            include: {
+                admin: {
+                    select: { name: true, username: true },
+                },
             },
-        },
-        orderBy: { createdAt: "desc" },
-    });
+            orderBy: { createdAt: "desc" },
+        });
+    } catch (error) {
+        console.error("Database error in getMaterials:", error);
+        return [];
+    }
 }
 
 export async function getMaterialById(id: string) {
-    return prisma.material.findUnique({
-        where: { id },
-        include: {
-            admin: {
-                select: { name: true, username: true },
+    try {
+        return await prisma.material.findUnique({
+            where: { id },
+            include: {
+                admin: {
+                    select: { name: true, username: true },
+                },
             },
-        },
-    });
+        });
+    } catch (error) {
+        console.error("Database error in getMaterialById:", error);
+        return null;
+    }
 }
 
 export async function respondToCoAuthorRequest(
@@ -462,18 +472,23 @@ export async function getPendingCoAuthorRequests() {
     const session = await getAdminSession();
     if (!session) return [];
 
-    return prisma.material.findMany({
-        where: {
-            coAuthorId: session.id,
-            coAuthorAccepted: null,
-        },
-        include: {
-            admin: {
-                select: {
-                    name: true,
-                    email: true,
+    try {
+        return await prisma.material.findMany({
+            where: {
+                coAuthorId: session.id,
+                coAuthorAccepted: null,
+            },
+            include: {
+                admin: {
+                    select: {
+                        name: true,
+                        email: true,
+                    }
                 }
             }
-        }
-    });
+        });
+    } catch (error) {
+        console.error("Database error in getPendingCoAuthorRequests:", error);
+        return [];
+    }
 }

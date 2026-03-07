@@ -39,30 +39,35 @@ export async function getAdminTransactions(filters?: {
         }
     }
 
-    return prisma.transaction.findMany({
-        where: whereClause,
-        include: {
-            material: {
-                select: {
-                    id: true,
-                    name: true,
-                    course: true,
-                    courseCode: true,
+    try {
+        return await prisma.transaction.findMany({
+            where: whereClause,
+            include: {
+                material: {
+                    select: {
+                        id: true,
+                        name: true,
+                        course: true,
+                        courseCode: true,
+                    },
                 },
-            },
-            order: {
-                include: {
-                    user: {
-                        select: {
-                            username: true,
-                            email: true,
+                order: {
+                    include: {
+                        user: {
+                            select: {
+                                username: true,
+                                email: true,
+                            },
                         },
                     },
                 },
             },
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
-    });
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+    } catch (error) {
+        console.error("Database error in getAdminTransactions:", error);
+        return [];
+    }
 }

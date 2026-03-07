@@ -53,12 +53,20 @@ export async function POST(req: NextRequest) {
             const reference = data.reference;
             const externalId = data.id?.toString();
             const result = await completeWithdrawal(reference, externalId);
+            notifyPaymentStatus(reference, {
+                success: result.success,
+                message: result.message,
+            });
             console.log(`[Webhook] transfer.success processed for ${reference}: ${result.message}`);
 
         } else if (event === "transfer.failed" || event === "transfer.reversed") {
             const reference = data.reference;
             const reason = data.reason || event;
             const result = await processRefund(reference, reason);
+            notifyPaymentStatus(reference, {
+                success: false,
+                message: reason,
+            });
             console.log(`[Webhook] ${event} processed for ${reference}: ${result.message}`);
         }
 

@@ -22,12 +22,12 @@ export default async function AuthorsPage() {
                 {/* Background Effects */}
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-linear-to-r from-transparent to-gray-500/10 bg-size-[40px_40px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)]" />
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-primary/5 blur-[120px] rounded-full" />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-primary/5 blur-[120px] rounded-lg" />
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                     <div className="mb-12 space-y-4">
-                        <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-full px-4 py-1.5 text-sm font-medium text-primary">
+                        <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg px-4 py-1.5 text-sm font-medium text-primary">
                             <span>Our Community</span>
                         </div>
                         <h1 className={`text-4xl md:text-6xl font-bold font-heading tracking-tight leading-tight ${ibm_plex_sans.className}`}>
@@ -42,10 +42,10 @@ export default async function AuthorsPage() {
                         {authors.map((author) => (
                             <div
                                 key={author.id}
-                                className="relative bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden transition-all duration-300"
+                                className="relative bg-card/40 backdrop-blur-sm border border-border/50 rounded-lg overflow-hidden transition-all duration-300"
                             >
                                 <div className="p-6 space-y-4">
-                                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-2 group-hover:bg-primary transition-colors duration-300">
+                                    <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-2 group-hover:bg-primary transition-colors duration-300">
                                         <User className="h-8 w-8 text-primary group-hover:text-primary-foreground" />
                                     </div>
 
@@ -54,15 +54,15 @@ export default async function AuthorsPage() {
                                         <p className="text-sm text-muted-foreground">@{author.username}</p>
                                     </div>
 
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/30 p-2 rounded-lg w-fit">
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/30 p-2 rounded-lg w-full justify-center">
                                         <BookOpen className="h-4 w-4" />
-                                        <span>{author._count.materials} Material{author._count.materials == 1 ? "Material" : "Materials"}</span>
+                                        <span>{author._count.materials} {author._count.materials == 1 ? "Material" : "Materials"}</span>
                                     </div>
                                 </div>
 
                                 <div className="px-6 pb-6">
                                     <Link href={`/authors/${author.id}`}>
-                                        <Button className="group w-full rounded-xl gap-2 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground cursor-pointer">
+                                        <Button className="group w-full rounded-lg gap-2 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground cursor-pointer">
                                             View Details
                                             <ArrowRight className="h-4 w-4 transition-transform duration-300  group-hover:translate-x-1" />
                                         </Button>
@@ -73,7 +73,7 @@ export default async function AuthorsPage() {
                     </div>
 
                     {authors.length === 0 && (
-                        <div className="text-center py-24 border border-dashed border-border/50 rounded-3xl">
+                        <div className="text-center py-24 border border-dashed border-border/50 rounded-lg">
                             <p className="text-xl text-muted-foreground">No authors found yet.</p>
                         </div>
                     )}

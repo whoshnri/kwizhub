@@ -32,11 +32,11 @@ export default async function AuthorDetailPage({
             <main className="flex-1 pt-32 pb-16 md:pt-48 md:pb-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Author Header */}
-                    <div className="relative mb-12 bg-card/40 backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-12 overflow-hidden">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -mr-32 -mt-32 rounded-full" />
+                    <div className="relative mb-12 bg-card/40 backdrop-blur-sm border border-border/50 rounded-lg p-8 md:p-12 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -mr-32 -mt-32 rounded-lg" />
 
                         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-8">
-                            <div className="w-24 h-24 md:w-32 md:h-32 bg-primary/10 rounded-4xl flex items-center justify-center border-4 border-background ">
+                            <div className="w-24 h-24 md:w-32 md:h-32 bg-primary/10 rounded-lg flex items-center justify-center border-4 border-background ">
                                 <User className="h-12 w-12 md:h-16 md:w-16 text-primary" />
                             </div>
 
@@ -45,10 +45,10 @@ export default async function AuthorDetailPage({
                                     <h1 className={`text-3xl md:text-5xl font-bold font-heading ${ibm_plex_sans.className}`}>
                                         {author.name}
                                     </h1>
-                                    <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/20 gap-1 rounded-full px-4 py-1">
+                                    {/* <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/20 gap-1 rounded-full px-4 py-1">
                                         <BadgeCheck className="h-3.5 w-3.5" />
                                         Verified Author
-                                    </Badge>
+                                    </Badge> */}
                                 </div>
                                 <p className="text-xl text-muted-foreground font-medium">@{author.username}</p>
 
@@ -78,11 +78,11 @@ export default async function AuthorDetailPage({
                             {author.materials.map((material) => (
                                 <div
                                     key={material.id}
-                                    className="group relative bg-card/40 backdrop-blur-sm border border-border/50 rounded-2xl p-6 transition-all duration-300 hover:border-primary/30"
+                                    className="group relative bg-card/40 backdrop-blur-sm border border-border/50 rounded-lg p-6 transition-all duration-300 hover:border-primary/30"
                                 >
                                     <div className="space-y-4">
                                         <div className="flex items-start justify-between">
-                                            <Badge variant="outline" className="rounded-full bg-primary/5 border-primary/20 text-primary">
+                                            <Badge variant="outline" className="rounded-lg bg-primary/5 border-primary/20 text-primary">
                                                 {material.category}
                                             </Badge>
                                             <span className="font-bold text-lg text-primary">₦{material.price.toLocaleString()}</span>
@@ -105,7 +105,7 @@ export default async function AuthorDetailPage({
                                         </div>
 
                                         <Link href={`/marketplace?materialId=${material.id}`}>
-                                            <Button className="w-full group cursor-pointer rounded-xl gap-2 transition-all duration-300">
+                                            <Button className="w-full group cursor-pointer rounded-lg gap-2 transition-all duration-300">
                                                 View in Marketplace
                                                 <ExternalLink className="h-4 w-4" />
                                             </Button>
@@ -116,7 +116,7 @@ export default async function AuthorDetailPage({
                         </div>
 
                         {author.materials.length === 0 && (
-                            <div className="text-center py-20 bg-muted/20 rounded-3xl border border-dashed border-border/50">
+                            <div className="text-center py-20 bg-muted/20 rounded-lg border border-dashed border-border/50">
                                 <p className="text-muted-foreground">No materials found for this author yet.</p>
                             </div>
                         )}

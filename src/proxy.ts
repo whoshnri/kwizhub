@@ -1,7 +1,29 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-export default function proxy(request: NextRequest) {
+function getSecret(): Uint8Array {
+  return new TextEncoder().encode(process.env.JWT_SECRET ?? "");
+}
+
+async function parseSession(request: NextRequest) {
+  const token = request.cookies.get("kwizhub_session")?.value;
+  if (!token) return null;
+
+  try {
+    const { payload } = await jwtVerify(token, getSecret());
+    const type = payload.type as string | undefined;
+    if (type === "user" || type === "admin") {
+      return payload as { type: "user" | "admin"; id: string };
+    }
+    return null;
+  } catch {
+    // Expired or tampered token
+    return null;
+  }
+}
+
+export default async function proxy(request: NextRequest) {
   const { pathname: path, searchParams } = request.nextUrl;
 
   // Exclude static/assets/api/favicon/etc.
@@ -15,29 +37,7 @@ export default function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Pre-launch gate — replace 'preview=true' with real secret in production
-  const isPreview = searchParams.get("preview") === "true";
-  if (!isPreview) {
-    return NextResponse.redirect(new URL("/prelaunch", request.url));
-  }
-
-  // Session parsing (still unsafe — replace with signed cookie / jwt / session store!)
-  let session = null;
-  const cookieValue = request.cookies.get("kwizhub_session")?.value;
-  if (cookieValue) {
-    try {
-      const decoded = Buffer.from(cookieValue, "base64").toString();
-      const data = JSON.parse(decoded);
-      if (data?.type && ["user", "admin"].includes(data.type)) {
-        session = data;
-      }
-    } catch {
-      // Bad cookie → clean it up
-      const res = NextResponse.next();
-      res.cookies.delete("kwizhub_session");
-      return res;
-    }
-  }
+  const session = await parseSession(request);
 
   // Protect /user/*
   if (path.startsWith("/user") && (!session || session.type !== "user")) {

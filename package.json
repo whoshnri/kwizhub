@@ -44,6 +44,7 @@
     "framer-motion": "^12.34.0",
     "fs": "0.0.1-security",
     "icons": "^1.0.0",
+    "jose": "^6.2.0",
     "lucide-react": "^0.556.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.34.0",

@@ -80,36 +80,29 @@ export async function processWithdrawal(amount: number, bankCode: string, accoun
                 if (!admin) throw new Error("Admin not found");
                 if (!admin.wallet) throw new Error("Wallet not found");
 
-                if (admin.wallet.balance < amount) {
-                    throw new Error("Insufficient wallet balance");
-                }
-
-                // Deduct Wallet
-                await tx.wallet.update({
-                    where: { adminId: adminId },
-                    data: { balance: { decrement: amount } }
+                // Calculate pending withdrawals
+                const pendingWithdrawals = await tx.withdrawal.aggregate({
+                    where: { adminId: adminId, status: "PENDING" },
+                    _sum: { amount: true }
                 });
 
-                // Create Withdrawal Record
+                const pendingAmount = pendingWithdrawals._sum.amount || 0;
+                const availableBalance = admin.wallet.balance - pendingAmount;
+
+                if (availableBalance < amount) {
+                    throw new Error(`Insufficient available balance. You have ₦${pendingAmount.toLocaleString()} in pending withdrawals.`);
+                }
+
+                // Create Withdrawal Record (No deduction yet: only PAID withdrawals subtract from wallet)
                 const withdrawal = await tx.withdrawal.create({
                     data: {
                         amount: amount,
                         status: "PENDING", // Initially pending
                         reference: reference,
                         adminId: adminId,
-                        bankName: accountName, // Using account name as bank name placeholder if needed
+                        bankName: accountName,
                         accountName: accountName,
                         accountNo: accountNumber,
-                    }
-                });
-
-                // Create Transaction Record
-                await tx.transaction.create({
-                    data: {
-                        type: "WITHDRAWAL",
-                        amount: amount,
-                        description: `Withdrawal to ${accountNumber}`,
-                        adminId: adminId,
                     }
                 });
 

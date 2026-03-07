@@ -71,14 +71,6 @@ export const createOrderSchema = z.object({
     referralCode: z.string().optional(),
 });
 
-// Withdrawal schemas
-export const requestWithdrawalSchema = z.object({
-    amount: z.number().min(1000, "Minimum withdrawal is ₦1,000"),
-    bankName: z.string().min(2, "Bank name is required"),
-    accountName: z.string().min(2, "Account name is required"),
-    accountNo: z.string().min(10, "Account number must be 10 digits").max(10, "Account number must be 10 digits"),
-});
-
 export const approveWithdrawalSchema = z.object({
     id: z.string().uuid(),
     status: z.enum(["APPROVED", "REJECTED", "PAID"]),
@@ -105,7 +97,6 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type UploadMaterialInput = z.infer<typeof uploadMaterialSchema>;
 export type EditMaterialInput = z.infer<typeof editMaterialSchema>;
 export type CreateOrderInput = z.infer<typeof createOrderSchema>;
-export type RequestWithdrawalInput = z.infer<typeof requestWithdrawalSchema>;
 export type ApproveWithdrawalInput = z.infer<typeof approveWithdrawalSchema>;
 export type DeleteAccountInput = z.infer<typeof deleteAccountSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;

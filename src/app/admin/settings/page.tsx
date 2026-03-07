@@ -173,7 +173,7 @@ export default function AdminSettingsPage() {
                         </div>
                         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button variant="destructive" className="w-full sm:w-auto font-bold uppercase tracking-wider text-xs">
+                                <Button variant="destructive" className="w-full sm:w-auto text-white font-bold uppercase tracking-wider text-xs">
                                     Delete Account
                                 </Button>
                             </DialogTrigger>
@@ -216,7 +216,7 @@ export default function AdminSettingsPage() {
                                         variant="destructive"
                                         onClick={handleDeleteAccount}
                                         disabled={deleting || !password}
-                                        className="rounded-xl font-bold"
+                                        className="rounded-xl font-bold text-white"
                                     >
                                         {deleting ? "Deleting..." : "Confirm Deletion"}
                                     </Button>

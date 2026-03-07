@@ -24,6 +24,7 @@ import {
     ShoppingBag,
     LogOut,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface UserMobileHeaderProps {
     username: string;
@@ -87,7 +88,7 @@ export function UserMobileHeader({ username, email, initials }: UserMobileHeader
                         </div>
 
                         {/* Navigation */}
-                        <nav className="flex-1 space-y-1 px-3 py-4">
+                        <nav className="flex-1 overflow-y-auto space-y-1 px-3 py-4">
                             {navItems.map((item) => {
                                 const Icon = item.icon;
                                 const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
@@ -153,6 +154,12 @@ export function UserMobileHeader({ username, email, initials }: UserMobileHeader
                                     </div>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
+                                        <Link href="/user/settings" className="flex w-full items-center gap-2" onClick={() => setOpen(false)}>
+                                            <Settings className="h-4 w-4" />
+                                            Settings
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
                                         <form onSubmit={handleLogout} className="w-full">
                                             <button
                                                 type="submit"
@@ -177,7 +184,8 @@ export function UserMobileHeader({ username, email, initials }: UserMobileHeader
                 <span className="font-bold font-heading">KwizHub</span>
             </div>
 
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-2">
+                <ThemeToggle />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -201,6 +209,12 @@ export function UserMobileHeader({ username, email, initials }: UserMobileHeader
                             </div>
                         </div>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/user/settings" className="flex w-full items-center gap-2">
+                                <Settings className="h-4 w-4" />
+                                Settings
+                            </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <form onSubmit={handleLogout} className="w-full">
                                 <button

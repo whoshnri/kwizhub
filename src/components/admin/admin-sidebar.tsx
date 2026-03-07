@@ -23,6 +23,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/app/actions/auth";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface AdminSidebarProps {
     name: string;
@@ -165,6 +166,10 @@ export function AdminSidebar({ name, email, initials }: AdminSidebarProps) {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+            </div>
+
+            <div className="border-t border-border p-3 flex justify-center">
+                <ThemeToggle />
             </div>
         </div>
     );

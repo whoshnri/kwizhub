@@ -24,7 +24,9 @@ import {
     Users,
     Upload,
     LogOut,
+    Settings,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface AdminMobileHeaderProps {
     name: string;
@@ -58,13 +60,18 @@ const navItems = [
         href: "/admin/referrals",
         icon: Users,
     },
+    {
+        title: "Settings",
+        href: "/admin/settings",
+        icon: Settings,
+    },
 ];
 
 export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderProps) {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
 
-    function handleLogout(){
+    function handleLogout() {
         logout()
     }
 
@@ -77,7 +84,7 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-64 p-0">
+                <SheetContent side="left" className="w-84 p-0">
                     <div className="flex h-full flex-col">
                         {/* Logo */}
                         <div className="flex h-16 items-center border-b border-border px-6">
@@ -93,7 +100,7 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                         </div>
 
                         {/* Navigation */}
-                        <nav className="flex-1 space-y-1 px-3 py-4">
+                        <nav className="flex-1 overflow-y-auto space-y-1 px-3 py-4">
                             {navItems.map((item) => {
                                 const Icon = item.icon;
                                 const isActive = pathname === item.href || pathname.endsWith(item.href + "/");
@@ -159,6 +166,12 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                                     </div>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
+                                        <Link href="/admin/settings" className="flex w-full items-center gap-2" onClick={() => setOpen(false)}>
+                                            <Settings className="h-4 w-4" />
+                                            Settings
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
                                         <form onSubmit={handleLogout} className="w-full">
                                             <button
                                                 type="submit"
@@ -183,7 +196,8 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                 <span className="font-bold font-heading">KwizHub</span>
             </div>
 
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-2">
+                <ThemeToggle />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -207,6 +221,12 @@ export function AdminMobileHeader({ name, email, initials }: AdminMobileHeaderPr
                             </div>
                         </div>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/admin/settings" className="flex w-full items-center gap-2">
+                                <Settings className="h-4 w-4" />
+                                Settings
+                            </Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <form onSubmit={handleLogout} className="w-full">
                                 <button

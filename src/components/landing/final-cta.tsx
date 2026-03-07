@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { IBM_Plex_Sans } from "next/font/google";
+import { useSession } from "@/components/session-provider";
 
 const ibm_plex_sans = IBM_Plex_Sans({
     subsets: ["latin"],
@@ -9,6 +12,16 @@ const ibm_plex_sans = IBM_Plex_Sans({
 });
 
 export function FinalCTA() {
+    const session = useSession();
+
+    let ctaHref = "/signup?role=author";
+    let ctaText = "Become an Author";
+
+    if (session && "role" in session) {
+        ctaHref = session.role === "ADMIN" ? "/admin" : "/user";
+        ctaText = "Go to Dashboard";
+    }
+
     return (
         <section className="relative py-32 overflow-hidden px-10">
             {/* Background Pattern */}
@@ -30,14 +43,14 @@ export function FinalCTA() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Link href="/signup?role=author" className="w-full sm:w-auto">
-                        <Button size="lg" className="w-full sm:w-auto text-base px-10 h-14 rounded-full bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/90 group transition-all shadow-xl shadow-primary/5">
-                            Become an Author
+                    <Link href={ctaHref} className="w-full sm:w-auto">
+                        <Button size="lg" className="w-full sm:w-auto text-base px-10 h-14 rounded-lg bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/90 group transition-all shadow-xl shadow-primary/5">
+                            {ctaText}
                             <ArrowRight className="ml-2 h-4 w-4 -rotate-45 group-hover:rotate-0 transition-transform" />
                         </Button>
                     </Link>
                     <Link href="/authors" className="w-full sm:w-auto">
-                        <Button size="lg" variant="outline" className="w-full sm:w-auto text-base px-10 h-14 rounded-full border-2 transition-all">
+                        <Button size="lg" variant="outline" className="w-full sm:w-auto text-base px-10 h-14 rounded-lg border-2 transition-all">
                             Meet Our Creators
                         </Button>
                     </Link>

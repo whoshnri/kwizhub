@@ -21,6 +21,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { logout } from "@/app/actions/auth";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface UserSidebarProps {
     username: string;
@@ -154,6 +155,10 @@ export function UserSidebar({ username, email, initials }: UserSidebarProps) {
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+            </div>
+
+            <div className="border-t border-border p-3 flex justify-center">
+                <ThemeToggle />
             </div>
         </div>
     );

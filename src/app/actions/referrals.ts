@@ -92,17 +92,22 @@ export async function getMyReferralCodes() {
     const session = await getAdminSession();
     if (!session) return [];
 
-    return prisma.referralCode.findMany({
-        where: { referrerId: session.id },
-        include: {
-            material: {
-                select: {
-                    name: true,
+    try {
+        return await prisma.referralCode.findMany({
+            where: { referrerId: session.id },
+            include: {
+                material: {
+                    select: {
+                        name: true,
+                    }
                 }
-            }
-        },
-        orderBy: { createdAt: 'desc' }
-    });
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+    } catch (error) {
+        console.error("Database error in getMyReferralCodes:", error);
+        return [];
+    }
 }
 
 export async function deleteReferralCode(id: string) {
